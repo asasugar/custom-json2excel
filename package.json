@@ -26,6 +26,7 @@
     "webpack-cli": "^3.1.0"
   },
   "dependencies": {
+    "babel-plugin-transform-runtime": "^6.23.0",
     "downloadjs": "^1.4.7"
   }
 }

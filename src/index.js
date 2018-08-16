@@ -1,4 +1,4 @@
-const download = require('downloadjs')
+import download from  'downloadjs'
 export default class Json2Excel {
   constructor({
     data,

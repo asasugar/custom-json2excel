@@ -1,0 +1,31 @@
+{
+  "name": "custom-json2excel",
+  "version": "1.0.6",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xxj95719/custom-json2excel.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xxj95719/custom-json2excel/issues"
+  },
+  "homepage": "https://github.com/xxj95719/custom-json2excel#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "clean-webpack-plugin": "^0.1.19",
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0"
+  },
+  "dependencies": {
+    "downloadjs": "^1.4.7"
+  }
+}

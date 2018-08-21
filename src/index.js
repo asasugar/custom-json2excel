@@ -27,7 +27,7 @@ export default class Json2Excel {
     if (this.exportFields !== undefined) return this.exportFields
   }
   toChsKeys(json, keyMap) {
-    return json.forEach(item => {
+    return json.map(item => {
       for (let filterItem of this.filters) {
         delete item[filterItem]
         for (let key in item) {

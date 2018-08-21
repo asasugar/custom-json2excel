@@ -8,7 +8,7 @@ module.exports = {
   },
   output: {
     filename: 'index.js',
-    path: __dirname + '/dist',
+    path: __dirname + '/lib',
     library: 'customJson2excel',
     libraryTarget: 'commonjs2'
   },
@@ -31,7 +31,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['dist'], {
+    new CleanWebpackPlugin(['lib'], {
       verbose: false
     })
   ],

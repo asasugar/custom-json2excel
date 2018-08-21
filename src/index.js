@@ -17,7 +17,7 @@ export default class Json2Excel {
     this.filters = filters
     this.footer = footer
     this.keyMap = keyMap
-    this.name = name
+    this.name = `${name}.${type}`
     this.title = title
     this.type = type
   }
@@ -29,9 +29,14 @@ export default class Json2Excel {
   toChsKeys(json, keyMap) {
     let rd = []
     json.forEach(item => {
+      for (let filterItem of this.filters) {
+        delete item[filterItem]
+      }
       for (let key in item) {
-        item[keyMap[key]] = item[key]
-        delete item[key]
+        if (keyMap.hasOwnProperty(key)) {
+          item[keyMap[key]] = item[key]
+          delete item[key]
+        }
       }
       rd.push(item)
     })

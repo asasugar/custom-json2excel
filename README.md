@@ -48,7 +48,7 @@ const json2excel = new Json2excel({ data })
 json2excel.generate()
 ```
 
-![image](https://github.com/xxj95719/custom-json2excel/master/images/noKepMap.png)
+![image](https://github.com/xxj95719/custom-json2excel/blob/master/images/noKepMap.png)
 
 2、自定义头部无需过滤字段时的使用方式：
 
@@ -95,7 +95,7 @@ const json2excel = new Json2excel({ data, keyMap })
 json2excel.generate()
 ```
 
-![image](https://github.com/xxj95719/custom-json2excel/master/images/noTitle.png)
+![image](https://github.com/xxj95719/custom-json2excel/blob/master/images/noTitle.png)
 
 3、需要过滤字段时的使用方式：
 
@@ -143,7 +143,7 @@ const json2excel = new Json2excel({ data, keyMap, filters })
 json2excel.generate()
 ```
 
-![image](https://github.com/xxj95719/custom-json2excel/master/images/filter.png)
+![image](https://github.com/xxj95719/custom-json2excel/blob/master/images/filter.png)
 
 4、需要表格标题时的使用方式：
 
@@ -195,7 +195,7 @@ const json2excel = new Json2excel({ data, title })
 json2excel.generate()
 ```
 
-![image](https://github.com/xxj95719/custom-json2excel/master/images/title.png)
+![image](https://github.com/xxj95719/custom-json2excel/blob/master/images/title.png)
 
 ## Props type
 

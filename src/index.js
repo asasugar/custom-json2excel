@@ -6,7 +6,7 @@ export default class Json2Excel {
     fields = false,
     filters = [],
     footer = null,
-    keyMap = null,
+    keyMap = {},
     name = 'excel',
     title = null,
     type = 'xls'
@@ -17,7 +17,7 @@ export default class Json2Excel {
     this.filters = filters
     this.footer = footer
     this.keyMap = keyMap
-    this.name = `${name}.${type}`
+    this.name = name
     this.title = title
     this.type = type
   }
@@ -27,35 +27,40 @@ export default class Json2Excel {
     if (this.exportFields !== undefined) return this.exportFields
   }
   toChsKeys(json, keyMap) {
-    let rd = []
-    json.forEach(item => {
+    return json.forEach(item => {
       for (let filterItem of this.filters) {
         delete item[filterItem]
-      }
-      for (let key in item) {
-        if (keyMap.hasOwnProperty(key)) {
-          item[keyMap[key]] = item[key]
-          delete item[key]
+        for (let key in item) {
+          if (keyMap.hasOwnProperty(key)) {
+            item[keyMap[key]] = item[key]
+            delete item[key]
+          }
         }
       }
-      rd.push(item)
+      return item
     })
-    return rd
   }
   generate() {
     if (!this.data.length) {
       return
     }
     let json = this.getProcessedJson(this.data, this.downloadFields())
-    if (this.keyMap) {
+    if (
+      Object.keys(this.keyMap).length !== 0 &&
+      this.keyMap instanceof Object
+    ) {
       json = this.toChsKeys(json, this.keyMap)
     }
     if (this.type == 'csv') {
-      return this.export(this.jsonToCSV(json), this.name, 'application/csv')
+      return this.export(
+        this.jsonToCSV(json),
+        `${this.name}.${this.type}`,
+        'application/csv'
+      )
     }
     return this.export(
       this.jsonToXLS(json),
-      this.name,
+      `${this.name}.${this.type}`,
       'application/vnd.ms-excel'
     )
   }

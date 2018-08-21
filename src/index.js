@@ -43,7 +43,7 @@ export default class Json2Excel {
     }
     let json = this.getProcessedJson(this.data, this.downloadFields())
     if (this.keyMap) {
-      json = this.toChsKeys(json, keyMap)
+      json = this.toChsKeys(json, this.keyMap)
     }
     if (this.type == 'csv') {
       return this.export(this.jsonToCSV(json), this.name, 'application/csv')

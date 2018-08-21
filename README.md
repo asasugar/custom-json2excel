@@ -10,69 +10,201 @@ npm install custom-json2excel
 
 ### How to use?
 
-1、自定义头部无需过滤字段时的使用方式：
+1、直接转化 json：
 
 ```js
 import Json2excel from 'custom-json2excel'
 const data = [
-  { name: '哈哈', age: 1 },
-  { name: '呵呵', age: 2 },
-  { name: '嘻嘻', age: 3 },
-  { name: '啦啦', age: 4 }
+  {
+    name: '哈哈',
+    age: 1,
+    sex: '男',
+    companyName: '公司1',
+    companyAddress: '公司地址1'
+  },
+  {
+    name: '呵呵',
+    age: 2,
+    sex: '女',
+    companyName: '公司2',
+    companyAddress: '公司地址2'
+  },
+  {
+    name: '嘻嘻',
+    age: 3,
+    sex: '男',
+    companyName: '公司3',
+    companyAddress: '公司地址3'
+  },
+  {
+    name: '啦啦',
+    age: 4,
+    sex: '女',
+    companyName: '公司4',
+    companyAddress: '公司地址4'
+  }
 ]
-const keyMap = { name: '姓名', age: '年龄' }
+const json2excel = new Json2excel({ data })
+json2excel.generate()
+```
+
+![image](https://github.com/xxj95719/custom-json2excel/master/images/noKepMap.png)
+
+2、自定义头部无需过滤字段时的使用方式：
+
+```js
+import Json2excel from 'custom-json2excel'
+const data = [
+  {
+    name: '哈哈',
+    age: 1,
+    sex: '男',
+    companyName: '公司1',
+    companyAddress: '公司地址1'
+  },
+  {
+    name: '呵呵',
+    age: 2,
+    sex: '女',
+    companyName: '公司2',
+    companyAddress: '公司地址2'
+  },
+  {
+    name: '嘻嘻',
+    age: 3,
+    sex: '男',
+    companyName: '公司3',
+    companyAddress: '公司地址3'
+  },
+  {
+    name: '啦啦',
+    age: 4,
+    sex: '女',
+    companyName: '公司4',
+    companyAddress: '公司地址4'
+  }
+]
+const keyMap = {
+  name: '姓名',
+  age: '年龄',
+  sex: '性别',
+  companyName: '公司名称',
+  companyAddress: '公司地址'
+}
 const json2excel = new Json2excel({ data, keyMap })
 json2excel.generate()
 ```
 
-2、需要过滤字段时的使用方式：
+![image](https://github.com/xxj95719/custom-json2excel/master/images/noTitle.png)
+
+3、需要过滤字段时的使用方式：
 
 ```js
 import Json2excel from 'custom-json2excel'
 const data = [
-  { name: '哈哈', age: 1, sex: '男' },
-  { name: '呵呵', age: 2, sex: '女' },
-  { name: '嘻嘻', age: 3, sex: '男' },
-  { name: '啦啦', age: 4, sex: '女' }
+  {
+    name: '哈哈',
+    age: 1,
+    sex: '男',
+    companyName: '公司1',
+    companyAddress: '公司地址1'
+  },
+  {
+    name: '呵呵',
+    age: 2,
+    sex: '女',
+    companyName: '公司2',
+    companyAddress: '公司地址2'
+  },
+  {
+    name: '嘻嘻',
+    age: 3,
+    sex: '男',
+    companyName: '公司3',
+    companyAddress: '公司地址3'
+  },
+  {
+    name: '啦啦',
+    age: 4,
+    sex: '女',
+    companyName: '公司4',
+    companyAddress: '公司地址4'
+  }
 ]
+const keyMap = {
+  name: '姓名',
+  age: '年龄',
+  sex: '性别',
+  companyName: '公司名称',
+  companyAddress: '公司地址'
+}
 const filters = ['sex']
-const keyMap = { name: '姓名', age: '年龄' }
 const json2excel = new Json2excel({ data, keyMap, filters })
 json2excel.generate()
 ```
 
-## 注意点
+![image](https://github.com/xxj95719/custom-json2excel/master/images/filter.png)
 
-当 keyMap 为部分，且未在 filters 中添加过滤，则生成的数组对象的 key 会自动排序
-列如：
+4、需要表格标题时的使用方式：
 
 ```js
+import Json2excel from 'custom-json2excel'
 const data = [
-  { name: '哈哈', age: 1, sex: '男' },
-  { name: '呵呵', age: 2, sex: '女' },
-  { name: '嘻嘻', age: 3, sex: '男' },
-  { name: '啦啦', age: 4, sex: '女' }
+  {
+    name: '哈哈',
+    age: 1,
+    sex: '男',
+    companyName: '公司1',
+    companyAddress: '公司地址1'
+  },
+  {
+    name: '呵呵',
+    age: 2,
+    sex: '女',
+    companyName: '公司2',
+    companyAddress: '公司地址2'
+  },
+  {
+    name: '嘻嘻',
+    age: 3,
+    sex: '男',
+    companyName: '公司3',
+    companyAddress: '公司地址3'
+  },
+  {
+    name: '啦啦',
+    age: 4,
+    sex: '女',
+    companyName: '公司4',
+    companyAddress: '公司地址4'
+  }
 ]
+const keyMap = {
+  name: '姓名',
+  age: '年龄',
+  sex: '性别',
+  companyName: '公司名称',
+  companyAddress: '公司地址'
+}
 const filters = ['sex']
-const keyMap = { name: '姓名' } //age未添加
-const json2excel = new Json2excel({ data, keyMap, filters })
-//========>>>转化后的jsonData
-jsonData = [
-  { age: 1, 姓名: '哈哈' },
-  { age: 2, 姓名: '呵呵' },
-  { age: 3, 姓名: '嘻嘻' },
-  { age: 4, 姓名: '啦啦' }
+const title = [
+  { name: '个人信息', colspan: 3 },
+  { name: '公司信息', colspan: 2 }
 ]
+const json2excel = new Json2excel({ data, title })
+json2excel.generate()
 ```
+
+![image](https://github.com/xxj95719/custom-json2excel/master/images/title.png)
 
 ## Props type
 
-| _Prop_  | _Type_ | _Defaults_ | _Required_ | _Description_                         |
-| :------ | :----- | :--------- | :--------- | ------------------------------------- |
-| data    | Array  | []         | ✓          | 转化成表格初始 json 数据              |
-| filters | Array  | []         | ×          | 需要过滤的字段数组                    |
-| footer  | String | null       | ×          | 表格页脚名称                          |
-| keyMap  | Object | {}         | ×          | keyMap 映射表，用于自定义表格头部名称 |
-| name    | String | excel      | ×          | excel 表格名称                        |
-| title   | String | null       | ×          | 表格标题名称                          |
-| type    | String | xls        | ×          | 生成的表格类型，可选值(xls、csv)      |
+| _Prop_  | _Type_ | _Defaults_ | _Required_ | _Description_                                                      |
+| :------ | :----- | :--------- | :--------- | ------------------------------------------------------------------ |
+| data    | Array  | []         | ✓          | 转化成表格初始 json 数据                                           |
+| filters | Array  | []         | ×          | 需要过滤的字段数组                                                 |
+| footer  | Array  | []         | ×          | 表格最后一列名称，参数同 title                                     |
+| keyMap  | Object | {}         | ×          | keyMap 映射表，用于自定义表格头部名称                              |
+| name    | String | excel      | ×          | excel 表格名称                                                     |
+| title   | Array  | []         | ×          | 表格标题名称 {name:String,colspan:Number} name:名称， colspan:列数 |
+| type    | String | xls        | ×          | 生成的表格类型，可选值(xls、csv)                                   |

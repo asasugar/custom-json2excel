@@ -5,10 +5,10 @@ export default class Json2Excel {
     exportFields = false,
     fields = false,
     filters = [],
-    footer = null,
+    footer = [],
     keyMap = {},
     name = 'excel',
-    title = null,
+    title = [],
     type = 'xls'
   }) {
     this.data = data
@@ -28,12 +28,21 @@ export default class Json2Excel {
   }
   toChsKeys(json, keyMap) {
     return json.map(item => {
-      for (let filterItem of this.filters) {
-        delete item[filterItem]
+      if (this.filters.length === 0) {
         for (let key in item) {
           if (keyMap.hasOwnProperty(key)) {
             item[keyMap[key]] = item[key]
             delete item[key]
+          }
+        }
+      } else {
+        for (let filterItem of this.filters) {
+          delete item[filterItem]
+          for (let key in item) {
+            if (keyMap.hasOwnProperty(key)) {
+              item[keyMap[key]] = item[key]
+              delete item[key]
+            }
           }
         }
       }
@@ -82,14 +91,12 @@ export default class Json2Excel {
     let xlsTemp =
       '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta name=ProgId content=Excel.Sheet> <meta name=Generator content="Microsoft Excel 11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>${table}</table></body></html>'
     let xlsData = '<thead><tr>'
-    const colspan = Object.keys(data[0]).length
-
     //Header
-    if (this.title != null) {
-      xlsData += this.parseExtraData(
-        this.title,
-        '<th colspan="' + colspan + '">${data}<th></tr><tr>'
-      )
+    if (this.title.length != 0) {
+      for (let i of this.title) {
+        xlsData += `<th colspan=${i.colspan}>${i.name}`
+      }
+      xlsData += '<th></tr>'
     }
     //Fields
     for (let key in data[0]) {
@@ -106,13 +113,12 @@ export default class Json2Excel {
       xlsData += '</tr></tbody>'
     })
     //Footer
-    if (this.footer != null) {
+    if (this.footer.length != 0) {
       xlsData += '<tfooter><tr>'
-      xlsData += this.parseExtraData(
-        this.footer,
-        '<td colspan="' + colspan + '">${data}<td></tr><tr>'
-      )
-      xlsData += '</tr></tfooter>'
+      for (let i of this.footer) {
+        xlsData += `<th colspan=${i.colspan}>${i.name}`
+      }
+      xlsData += '<th></tr></tr></tfooter>'
     }
     return xlsTemp.replace('${table}', xlsData)
   }

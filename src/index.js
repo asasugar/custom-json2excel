@@ -1,32 +1,50 @@
 import download from 'downloadjs'
 export default class Json2Excel {
   constructor({
-    data,
-    title = 'title',
-    type = 'xls',
-    fields = false,
+    data = [],
     exportFields = false,
-    name = 'data.xls',
-    footer = null
+    fields = false,
+    filters = [],
+    footer = null,
+    keyMap = null,
+    name = 'excel',
+    title = null,
+    type = 'xls'
   }) {
     this.data = data
+    this.exportFields = exportFields
+    this.fields = fields
+    this.filters = filters
+    this.footer = footer
+    this.keyMap = keyMap
+    this.name = name
     this.title = title
     this.type = type
-    this.fields = fields
-    this.exportFields = exportFields
-    this.name = name
-    this.footer = footer
   }
   downloadFields() {
     if (this.fields !== undefined) return this.fields
 
     if (this.exportFields !== undefined) return this.exportFields
   }
+  toChsKeys(json, keyMap) {
+    let rd = []
+    json.forEach(item => {
+      for (let key in item) {
+        item[keyMap[key]] = item[key]
+        delete item[key]
+      }
+      rd.push(item)
+    })
+    return rd
+  }
   generate() {
     if (!this.data.length) {
       return
     }
     let json = this.getProcessedJson(this.data, this.downloadFields())
+    if (this.keyMap) {
+      json = this.toChsKeys(json, keyMap)
+    }
     if (this.type == 'csv') {
       return this.export(this.jsonToCSV(json), this.name, 'application/csv')
     }

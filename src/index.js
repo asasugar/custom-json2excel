@@ -74,7 +74,7 @@ export default class Json2Excel {
     )
   }
   /*
-  Use downloadjs to generate the download link
+  使用 downloadjs 生成下载链接
   */
   export(data, filename, mime) {
     let blob = this.base64ToBlob(data, mime)
@@ -83,9 +83,7 @@ export default class Json2Excel {
   /*
   jsonToXLS
   ---------------
-  Transform json data into an xml document with MS Excel format, sadly
-  this format show a prompt when open due to a default behavior
-  on Microsoft office. It's recommended to use CSV format instead.
+    将json数据转换为XLS文件
   */
   jsonToXLS(data) {
     let xlsTemp =
@@ -125,13 +123,16 @@ export default class Json2Excel {
   /*
   jsonToCSV
   ---------------
-  Transform json data into an CSV file.
+  将json数据转换为CSV文件
   */
   jsonToCSV(data) {
     var csvData = ''
     //Header
-    if (this.title != null) {
-      csvData += this.parseExtraData(this.title, '${data}\r\n')
+    if (this.title.length != 0) {
+      for (let i of this.title) {
+        csvData += `${i.name}`
+      }
+      csvData += '\r\n'
     }
     //Fields
     for (let key in data[0]) {
@@ -152,15 +153,18 @@ export default class Json2Excel {
       csvData += '\r\n'
     })
     //Footer
-    if (this.footer != null) {
-      csvData += this.parseExtraData(this.footer, '${data}\r\n')
+    if (this.footer.length != 0) {
+      for (let i of this.footer) {
+        csvData += `${i.name}`
+      }
+      csvData += '\r\n'
     }
     return csvData
   }
   /*
   getProcessedJson
   ---------------
-  Get only the data to export, if no fields are set return all the data
+  仅获取要导出的数据，如果未设置任何字段则返回所有数据
   */
   getProcessedJson(data, header) {
     let keys = this.getKeys(data, header)
@@ -192,7 +196,7 @@ export default class Json2Excel {
   /*
 parseExtraData
 ---------------
-Parse title and footer attribute to the csv format
+将标题和页脚属性解析为csv格式
 */
   parseExtraData(extraData, format) {
     let parseData = ''

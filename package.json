@@ -1,10 +1,11 @@
 {
   "name": "custom-json2excel",
   "version": "1.2.8",
-  "description": "传入json，可自定义表格标题名称和列数、头部名称和过滤列",
+  "description": "✌传入json，可自定义表格标题名称和列数、头部名称和过滤列",
   "main": "lib/index.js",
   "scripts": {
     "build": "webpack",
+    "prepublish": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

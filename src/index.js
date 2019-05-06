@@ -76,7 +76,7 @@ export default class Json2Excel {
   /*
   使用 downloadjs 生成下载链接
   */
-  export(data, filename, mime) {
+  export (data, filename, mime) {
     let blob = this.base64ToBlob(data, mime)
     download(blob, filename, mime)
   }
@@ -103,7 +103,7 @@ export default class Json2Excel {
     xlsData += '</tr></thead>'
     xlsData += '<tbody>'
     //Data
-    data.map(function(item, index) {
+    data.map(function (item, index) {
       xlsData += '<tbody><tr>'
       for (let key in item) {
         xlsData += '<td>' + item[key] + '</td>'
@@ -141,7 +141,7 @@ export default class Json2Excel {
     csvData = csvData.slice(0, csvData.length - 1)
     csvData += '\r\n'
     //Data
-    data.map(function(item) {
+    data.map(function (item) {
       for (let key in item) {
         let escapedCSV = item[key] + '' // cast Numbers to string
         if (escapedCSV.match(/[,"\n]/)) {
@@ -170,7 +170,7 @@ export default class Json2Excel {
     let keys = this.getKeys(data, header)
     let newData = []
     let _self = this
-    data.map(function(item, index) {
+    data.map(function (item, index) {
       let newItem = {}
       for (let label in keys) {
         var iii = item
@@ -228,6 +228,8 @@ parseExtraData
 
     valueFromNestedKey = this.callItemCallback(key, valueFromNestedKey)
 
+    valueFromNestedKey = valueFromNestedKey === null || valueFromNestedKey === undefined ? "" : valueFromNestedKey; // 过滤null、undefined的值
+
     return valueFromNestedKey
   }
   base64ToBlob(data, mime) {
@@ -238,6 +240,8 @@ parseExtraData
     while (n--) {
       u8arr[n] = bstr.charCodeAt(n)
     }
-    return new Blob([u8arr], { type: mime })
+    return new Blob([u8arr], {
+      type: mime
+    })
   }
 }

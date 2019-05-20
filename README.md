@@ -48,7 +48,7 @@ const json2excel = new Json2excel({ data });
 json2excel.generate();
 ```
 
-![image](https://github.com/xxj95719/custom-json2excel/blob/master/images/noKepMap.png)
+![20190520174344.png](https://i.loli.net/2019/05/20/5ce276d35737f64374.png)
 
 2、自定义头部无需过滤字段时的使用方式：
 
@@ -95,7 +95,7 @@ const json2excel = new Json2excel({ data, keyMap });
 json2excel.generate();
 ```
 
-![image](https://github.com/xxj95719/custom-json2excel/blob/master/images/noTitle.png)
+![20190520174449.png](https://i.loli.net/2019/05/20/5ce27712b3c4880090.png)
 
 3、需要过滤字段时的使用方式：
 
@@ -143,7 +143,7 @@ const json2excel = new Json2excel({ data, keyMap, filters });
 json2excel.generate();
 ```
 
-![image](https://github.com/xxj95719/custom-json2excel/blob/master/images/filter.png)
+![20190520174515.png](https://i.loli.net/2019/05/20/5ce2772bf1a3718069.png)
 
 4、需要表格标题时的使用方式：
 
@@ -194,6 +194,8 @@ const title = [
 const json2excel = new Json2excel({ data, keyMap, filters, title });
 json2excel.generate();
 ```
+
+![20190520174536.png](https://i.loli.net/2019/05/20/5ce27741a660624320.png)
 
 5、绑定回调函数的使用方式：
 
@@ -255,8 +257,6 @@ const json2excel = new Json2excel({
 });
 json2excel.generate();
 ```
-
-![image](https://github.com/xxj95719/custom-json2excel/blob/master/images/title.png)
 
 ## Props type
 

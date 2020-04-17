@@ -8,7 +8,7 @@ or
 npm install custom-json2excel
 ```
 
-### How to use?
+## How to use?
 
 1、直接转化 json：
 

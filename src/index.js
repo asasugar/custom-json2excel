@@ -1,4 +1,4 @@
-import download from "downloadjs";
+// import download from "./utils/download.js";
 export default class Json2Excel {
   constructor({
     data = [],
@@ -10,8 +10,8 @@ export default class Json2Excel {
     name = "excel",
     title = [],
     type = "xls",
-    onStart = () => {},
-    onSuccess = () => {}
+    onStart = () => { },
+    onSuccess = () => { }
   }) {
     this.data = data;
     this.exportFields = exportFields;
@@ -24,12 +24,12 @@ export default class Json2Excel {
     (this.type = type), (this.onStart = onStart);
     this.onSuccess = onSuccess;
   }
-  downloadFields() {
+  downloadFields () {
     if (this.fields !== undefined) return this.fields;
 
     if (this.exportFields !== undefined) return this.exportFields;
   }
-  toChsKeys(json, keyMap) {
+  toChsKeys (json, keyMap) {
     return json.map(item => {
       if (this.filters.length === 0) {
         for (let key in item) {
@@ -52,7 +52,7 @@ export default class Json2Excel {
       return item;
     });
   }
-  generate() {
+  generate () {
     if (!this.data.length) {
       return;
     }
@@ -77,25 +77,39 @@ export default class Json2Excel {
       "application/vnd.ms-excel"
     );
   }
+  download (blob, filename) {
+    const anchor = document.createElement("a");
+    const url = window.URL.createObjectURL(blob);
+    anchor.href = url;
+    anchor.setAttribute("download", filename);
+    anchor.innerHTML = "downloading...";
+    anchor.style.display = "none";
+    document.body.appendChild(anchor);
+    setTimeout(() => {
+      anchor.click();
+      document.body.removeChild(anchor);
+      setTimeout(() => { self.URL.revokeObjectURL(anchor.href); }, 250);
+    }, 66);
+  }
   /*
   使用 downloadjs 生成下载链接
   */
-  export(data, filename, mime) {
+  export (data, filename, mime) {
     new Promise((resolve, reject) => {
       let blob = this.base64ToBlob(data, mime);
-      resolve(download(blob, filename, mime));
+      resolve(this.download(blob, filename));
     })
       .then(res => {
         this.onSuccess();
       })
-      .catch(err => {});
+      .catch(err => { });
   }
   /*
   jsonToXLS
   ---------------
     将json数据转换为XLS文件
   */
-  jsonToXLS(data) {
+  jsonToXLS (data) {
     let xlsTemp =
       '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta name=ProgId content=Excel.Sheet> <meta name=Generator content="Microsoft Excel 11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>${table}</table></body></html>';
     let xlsData = "<thead><tr>";
@@ -113,7 +127,7 @@ export default class Json2Excel {
     xlsData += "</tr></thead>";
     xlsData += "<tbody>";
     //Data
-    data.map(function(item, index) {
+    data.map(function (item, index) {
       xlsData += "<tbody><tr>";
       for (let key in item) {
         xlsData += "<td>" + item[key] + "</td>";
@@ -135,7 +149,7 @@ export default class Json2Excel {
   ---------------
   将json数据转换为CSV文件
   */
-  jsonToCSV(data) {
+  jsonToCSV (data) {
     var csvData = "";
     //Header
     if (this.title.length != 0) {
@@ -151,7 +165,7 @@ export default class Json2Excel {
     csvData = csvData.slice(0, csvData.length - 1);
     csvData += "\r\n";
     //Data
-    data.map(function(item) {
+    data.map(function (item) {
       for (let key in item) {
         let escapedCSV = item[key] + ""; // cast Numbers to string
         if (escapedCSV.match(/[,"\n]/)) {
@@ -176,11 +190,11 @@ export default class Json2Excel {
   ---------------
   仅获取要导出的数据，如果未设置任何字段则返回所有数据
   */
-  getProcessedJson(data, header) {
+  getProcessedJson (data, header) {
     let keys = this.getKeys(data, header);
     let newData = [];
     let _self = this;
-    data.map(function(item, index) {
+    data.map(function (item, index) {
       let newItem = {};
       for (let label in keys) {
         var iii = item;
@@ -192,7 +206,7 @@ export default class Json2Excel {
 
     return newData;
   }
-  getKeys(data, header) {
+  getKeys (data, header) {
     if (header) {
       return header;
     }
@@ -208,7 +222,7 @@ parseExtraData
 ---------------
 将标题和页脚属性解析为csv格式
 */
-  parseExtraData(extraData, format) {
+  parseExtraData (extraData, format) {
     let parseData = "";
     if (Array.isArray(extraData)) {
       for (var i = 0; i < extraData.length; i++) {
@@ -219,13 +233,13 @@ parseExtraData
     }
     return parseData;
   }
-  callItemCallback(field, itemValue) {
+  callItemCallback (field, itemValue) {
     if (typeof field === "object" && typeof field.callback === "function") {
       return field.callback(itemValue);
     }
     return itemValue;
   }
-  getNestedData(key, item) {
+  getNestedData (key, item) {
     const field = typeof key === "object" ? key.field : key;
 
     let valueFromNestedKey = null;
@@ -245,7 +259,7 @@ parseExtraData
 
     return valueFromNestedKey;
   }
-  base64ToBlob(data, mime) {
+  base64ToBlob (data, mime) {
     let base64 = window.btoa(window.unescape(encodeURIComponent(data)));
     let bstr = atob(base64);
     let n = bstr.length;

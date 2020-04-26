@@ -5,8 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "rollup -c",
-    "prepublish": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -33,6 +32,8 @@
     "babel-preset-es2015-rollup": "^3.0.0",
     "rollup": "^2.6.1",
     "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-uglify": "^6.0.4"
+    "rollup-plugin-typescript2": "^0.27.0",
+    "rollup-plugin-uglify": "^6.0.4",
+    "typescript": "^3.8.3"
   }
 }

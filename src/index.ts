@@ -1,18 +1,42 @@
-// import download from "./utils/download.js";
+interface IJson2ExcelParam {
+  exportFields: boolean;
+  fields: boolean;
+  data: object[];
+  filters: string[];
+  title: any[];
+  footer: any[];
+  keyMap: object;
+  name: string;
+  type: string;
+  onStart: () => void;
+  onSuccess: () => void;
+}
 export default class Json2Excel {
+  exportFields: boolean;
+  fields: boolean;
+  data: object[];
+  filters: string[];
+  title: any[];
+  footer: any[];
+  keyMap: object;
+  name: string;
+  type: string;
+  onStart: () => void;
+  onSuccess: () => void;
+
   constructor({
-    data = [],
     exportFields = false,
     fields = false,
+    data = [],
     filters = [],
+    title = [],
     footer = [],
     keyMap = {},
     name = "excel",
-    title = [],
     type = "xls",
     onStart = () => { },
     onSuccess = () => { }
-  }) {
+  }: IJson2ExcelParam) {
     this.data = data;
     this.exportFields = exportFields;
     this.fields = fields;
@@ -24,12 +48,12 @@ export default class Json2Excel {
     (this.type = type), (this.onStart = onStart);
     this.onSuccess = onSuccess;
   }
-  downloadFields () {
+  downloadFields (): boolean {
     if (this.fields !== undefined) return this.fields;
 
     if (this.exportFields !== undefined) return this.exportFields;
   }
-  toChsKeys (json, keyMap) {
+  toChsKeys (json: any[], keyMap: any) {
     return json.map(item => {
       if (this.filters.length === 0) {
         for (let key in item) {
@@ -77,7 +101,7 @@ export default class Json2Excel {
       "application/vnd.ms-excel"
     );
   }
-  download (blob, filename) {
+  download (blob: Blob, filename: string): void {
     const anchor = document.createElement("a");
     const url = window.URL.createObjectURL(blob);
     anchor.href = url;
@@ -91,10 +115,7 @@ export default class Json2Excel {
       setTimeout(() => { self.URL.revokeObjectURL(anchor.href); }, 250);
     }, 66);
   }
-  /*
-  使用 downloadjs 生成下载链接
-  */
-  export (data, filename, mime) {
+  export (data: string, filename: string, mime: string) {
     new Promise((resolve, reject) => {
       let blob = this.base64ToBlob(data, mime);
       resolve(this.download(blob, filename));
@@ -109,12 +130,12 @@ export default class Json2Excel {
   ---------------
     将json数据转换为XLS文件
   */
-  jsonToXLS (data) {
+  jsonToXLS (data: any[]) {
     let xlsTemp =
       '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta name=ProgId content=Excel.Sheet> <meta name=Generator content="Microsoft Excel 11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>${table}</table></body></html>';
     let xlsData = "<thead><tr>";
     //Header
-    if (this.title.length != 0) {
+    if (this.title.length) {
       for (let i of this.title) {
         xlsData += `<th colspan=${i.colspan}>${i.name}`;
       }
@@ -127,7 +148,7 @@ export default class Json2Excel {
     xlsData += "</tr></thead>";
     xlsData += "<tbody>";
     //Data
-    data.map(function (item, index) {
+    data.map(function (item: { [x: string]: string; }, index: any) {
       xlsData += "<tbody><tr>";
       for (let key in item) {
         xlsData += "<td>" + item[key] + "</td>";
@@ -149,7 +170,7 @@ export default class Json2Excel {
   ---------------
   将json数据转换为CSV文件
   */
-  jsonToCSV (data) {
+  jsonToCSV (data: any[]) {
     var csvData = "";
     //Header
     if (this.title.length != 0) {
@@ -165,7 +186,7 @@ export default class Json2Excel {
     csvData = csvData.slice(0, csvData.length - 1);
     csvData += "\r\n";
     //Data
-    data.map(function (item) {
+    data.map(function (item: { [x: string]: string; }) {
       for (let key in item) {
         let escapedCSV = item[key] + ""; // cast Numbers to string
         if (escapedCSV.match(/[,"\n]/)) {
@@ -190,14 +211,13 @@ export default class Json2Excel {
   ---------------
   仅获取要导出的数据，如果未设置任何字段则返回所有数据
   */
-  getProcessedJson (data, header) {
+  getProcessedJson (data: any[], header: boolean) {
     let keys = this.getKeys(data, header);
-    let newData = [];
+    let newData: {}[] = [];
     let _self = this;
-    data.map(function (item, index) {
-      let newItem = {};
+    data.map((item: any) => {
+      let newItem: any = {};
       for (let label in keys) {
-        var iii = item;
         let property = keys[label];
         newItem[label] = _self.getNestedData(property, item);
       }
@@ -206,12 +226,12 @@ export default class Json2Excel {
 
     return newData;
   }
-  getKeys (data, header) {
+  getKeys (data: any[], header: any) {
     if (header) {
       return header;
     }
 
-    let keys = {};
+    let keys: any = {};
     for (let key in data[0]) {
       keys[key] = key;
     }
@@ -222,7 +242,7 @@ parseExtraData
 ---------------
 将标题和页脚属性解析为csv格式
 */
-  parseExtraData (extraData, format) {
+  parseExtraData (extraData: string | any[], format: string) {
     let parseData = "";
     if (Array.isArray(extraData)) {
       for (var i = 0; i < extraData.length; i++) {
@@ -233,13 +253,13 @@ parseExtraData
     }
     return parseData;
   }
-  callItemCallback (field, itemValue) {
+  callItemCallback (field: any, itemValue: any) {
     if (typeof field === "object" && typeof field.callback === "function") {
       return field.callback(itemValue);
     }
     return itemValue;
   }
-  getNestedData (key, item) {
+  getNestedData (key: { field: any; }, item: { [x: string]: any; }) {
     const field = typeof key === "object" ? key.field : key;
 
     let valueFromNestedKey = null;
@@ -259,7 +279,7 @@ parseExtraData
 
     return valueFromNestedKey;
   }
-  base64ToBlob (data, mime) {
+  base64ToBlob (data: string | number | boolean, mime: string) {
     let base64 = window.btoa(window.unescape(encodeURIComponent(data)));
     let bstr = atob(base64);
     let n = bstr.length;

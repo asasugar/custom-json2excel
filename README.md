@@ -10,6 +10,25 @@ npm install custom-json2excel
 
 ## How to use?
 
+### 方法一:
+
+1、下载 `dist` 文件夹 `index.js`;
+
+2、`script` 标签引入：
+ 
+<script src="xx/index.js"></script>
+
+3、`index.html` 中使用：
+
+```html
+const data = [
+  ...
+];
+const json2excel = new CustomJson2excel({ data, keyMap });
+json2excel.generate();
+```
+
+### 方法二：
 1、直接转化 json：
 
 ```js

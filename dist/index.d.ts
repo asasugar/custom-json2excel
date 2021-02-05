@@ -1,7 +1,6 @@
 interface IJson2ExcelParam {
-    exportFields: boolean;
-    fields: boolean;
     data: object[];
+    orderedKey: string[];
     filters: string[];
     title: any[];
     footer: any[];
@@ -12,9 +11,8 @@ interface IJson2ExcelParam {
     onSuccess: () => void;
 }
 export default class Json2Excel {
-    exportFields: boolean;
-    fields: boolean;
     data: object[];
+    orderedKey: string[];
     filters: string[];
     title: any[];
     footer: any[];
@@ -23,16 +21,17 @@ export default class Json2Excel {
     type: string;
     onStart: () => void;
     onSuccess: () => void;
-    constructor({ exportFields, fields, data, filters, title, footer, keyMap, name, type, onStart, onSuccess }: IJson2ExcelParam);
-    downloadFields(): boolean;
-    toChsKeys(json: any[], keyMap: any): any[];
+    constructor({ data, orderedKey, filters, title, footer, keyMap, name, type, onStart, onSuccess }: IJson2ExcelParam);
+    toChsKeys(json: any[], keyMap: any): {
+        [x: string]: object;
+    }[];
     generate(): void;
     download(blob: Blob, filename: string): void;
     export(data: string, filename: string, mime: string): void;
     jsonToXLS(data: any[]): string;
     jsonToCSV(data: any[]): string;
-    getProcessedJson(data: any[], header: boolean): {}[];
-    getKeys(data: any[], header: any): any;
+    getProcessedJson(data: any[]): {}[];
+    getKeys(data: any[]): any;
     parseExtraData(extraData: string | any[], format: string): string;
     callItemCallback(field: any, itemValue: any): any;
     getNestedData(key: {

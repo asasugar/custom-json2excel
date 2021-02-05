@@ -1,7 +1,6 @@
 interface IJson2ExcelParam {
-  exportFields: boolean;
-  fields: boolean;
   data: object[];
+  orderedKey: string[];
   filters: string[];
   title: any[];
   footer: any[];
@@ -12,9 +11,8 @@ interface IJson2ExcelParam {
   onSuccess: () => void;
 }
 export default class Json2Excel {
-  exportFields: boolean;
-  fields: boolean;
   data: object[];
+  orderedKey: string[];
   filters: string[];
   title: any[];
   footer: any[];
@@ -25,9 +23,8 @@ export default class Json2Excel {
   onSuccess: () => void;
 
   constructor({
-    exportFields = false,
-    fields = false,
     data = [],
+    orderedKey = [],
     filters = [],
     title = [],
     footer = [],
@@ -38,42 +35,53 @@ export default class Json2Excel {
     onSuccess = () => { }
   }: IJson2ExcelParam) {
     this.data = data;
-    this.exportFields = exportFields;
-    this.fields = fields;
     this.filters = filters;
     this.footer = footer;
+    this.orderedKey = orderedKey;
     this.keyMap = keyMap;
     this.name = name;
     this.title = title;
     (this.type = type), (this.onStart = onStart);
     this.onSuccess = onSuccess;
   }
-  downloadFields (): boolean {
-    if (this.fields !== undefined) return this.fields;
 
-    if (this.exportFields !== undefined) return this.exportFields;
-  }
   toChsKeys (json: any[], keyMap: any) {
+    let newItem: { [x: string]: object; } = {}
     return json.map(item => {
-      if (this.filters.length === 0) {
-        for (let key in item) {
-          if (keyMap.hasOwnProperty(key)) {
-            item[keyMap[key]] = item[key];
-            delete item[key];
+
+      if (this.orderedKey.length) {
+        // 指定key顺序，适用于需要key按照一定顺序，并且只保留key中存在的字段
+        for (let keyItem of this.orderedKey) {
+          if (keyMap.hasOwnProperty(keyItem)) {
+            newItem[keyMap[keyItem]] = item[keyItem];
+          } else {
+            newItem[keyItem] = item[keyItem];
           }
         }
-      } else {
+      } else if (this.filters.length) {
+        // 过滤key，适用于需要过滤的key较少
         for (let filterItem of this.filters) {
           delete item[filterItem];
           for (let key in item) {
             if (keyMap.hasOwnProperty(key)) {
-              item[keyMap[key]] = item[key];
-              delete item[key];
+              newItem[keyMap[key]] = item[key];// 替换的数据赋值
+            } else {
+              newItem[key] = item[key];
             }
           }
         }
+      } else {
+        // 不需要过滤key或者指定key
+        for (let key in item) {
+          if (keyMap.hasOwnProperty(key)) {
+            newItem[keyMap[key]] = item[key];
+          } else {
+            newItem[key] = item[key];
+          }
+        }
       }
-      return item;
+
+      return newItem;
     });
   }
   generate () {
@@ -81,13 +89,10 @@ export default class Json2Excel {
       return;
     }
     this.onStart();
-    let json = this.getProcessedJson(this.data, this.downloadFields());
-    if (
-      Object.keys(this.keyMap).length !== 0 &&
-      this.keyMap instanceof Object
-    ) {
-      json = this.toChsKeys(json, this.keyMap);
-    }
+    let json = this.getProcessedJson(this.data);
+
+    json = this.toChsKeys(json, this.keyMap); // 过滤、按照指定顺序、keyMap操作
+
     if (this.type == "csv") {
       return this.export(
         this.jsonToCSV(json),
@@ -212,31 +217,22 @@ export default class Json2Excel {
     }
     return csvData;
   }
-  /*
-  getProcessedJson
-  ---------------
-  仅获取要导出的数据，如果未设置任何字段则返回所有数据
-  */
-  getProcessedJson (data: any[], header: boolean) {
-    let keys = this.getKeys(data, header);
+
+  getProcessedJson (data: any[]) {
+    let keys = this.getKeys(data);
     let newData: {}[] = [];
-    let _self = this;
     data.map((item: any) => {
       let newItem: any = {};
       for (let label in keys) {
         let property = keys[label];
-        newItem[label] = _self.getNestedData(property, item);
+        newItem[label] = this.getNestedData(property, item);
       }
       newData.push(newItem);
     });
 
     return newData;
   }
-  getKeys (data: any[], header: any) {
-    if (header) {
-      return header;
-    }
-
+  getKeys (data: any[]) {
     let keys: any = {};
     for (let key in data[0]) {
       keys[key] = key;

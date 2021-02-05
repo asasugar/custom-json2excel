@@ -102,6 +102,11 @@ export default class Json2Excel {
     );
   }
   download (blob: Blob, filename: string): void {
+    if (navigator.msSaveOrOpenBlob) {
+      navigator.msSaveOrOpenBlob(blob, filename);
+      return;
+    }
+    
     const anchor = document.createElement("a");
     const url = window.URL.createObjectURL(blob);
     anchor.href = url;

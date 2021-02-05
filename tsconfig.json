@@ -8,6 +8,7 @@
     "declaration": true,
     "listEmittedFiles": true,
     "noUnusedLocals": true,
+    "lib": ["DOM","ES6"]
   },
   "include": [
     "src/**/*"

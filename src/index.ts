@@ -102,33 +102,34 @@ export default class Json2Excel {
     );
   }
   download (blob: Blob, filename: string): void {
-    if (navigator.msSaveOrOpenBlob) {
+    // IE浏览器
+    if (window.navigator.msSaveOrOpenBlob) {
       navigator.msSaveOrOpenBlob(blob, filename);
-      return;
+    } else {
+      // 其他浏览器
+      const anchor = document.createElement("a");
+      const url = window.URL.createObjectURL(blob);
+      anchor.href = url;
+      anchor.setAttribute("download", filename);
+      anchor.innerHTML = "downloading...";
+      anchor.style.display = "none";
+      document.body.appendChild(anchor);
+      setTimeout(() => {
+        anchor.click();
+        document.body.removeChild(anchor);
+        setTimeout(() => { self.URL.revokeObjectURL(anchor.href); }, 250);
+      }, 66);
     }
-    
-    const anchor = document.createElement("a");
-    const url = window.URL.createObjectURL(blob);
-    anchor.href = url;
-    anchor.setAttribute("download", filename);
-    anchor.innerHTML = "downloading...";
-    anchor.style.display = "none";
-    document.body.appendChild(anchor);
-    setTimeout(() => {
-      anchor.click();
-      document.body.removeChild(anchor);
-      setTimeout(() => { self.URL.revokeObjectURL(anchor.href); }, 250);
-    }, 66);
   }
   export (data: string, filename: string, mime: string) {
-    new Promise((resolve, reject) => {
+    new Promise((resolve) => {
       let blob = this.base64ToBlob(data, mime);
       resolve(this.download(blob, filename));
     })
-      .then(res => {
+      .then(() => {
         this.onSuccess();
       })
-      .catch(err => { });
+      .catch(() => { });
   }
   /*
   jsonToXLS

@@ -116,7 +116,7 @@ json2excel.generate();
 
 ![20190520174449.png](https://i.loli.net/2019/05/20/5ce27712b3c4880090.png)
 
-orderedKey
+
 3、需要按照字段顺序返回表格列时的使用方式：
 
 ```js

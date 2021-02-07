@@ -1,5 +1,16 @@
 # custom-json2excel
 
+
+## 更新内容
+
+### v3.1.0
+
+- 修复ie下载问题
+
+- 修复未指定kepMap导致的filters失效问题
+
+- 增加了`orderedKey`字段，可指定列顺序
+
 ## Plugin setup
 
 ```

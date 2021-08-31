@@ -3,6 +3,11 @@
 
 ## 更新内容
 
+### v3.1.2
+
+- [修复导出数据重复为最后一项的bug](https://github.com/asasugar/custom-json2excel/issues/14)
+
+
 ### v3.1.1
 
 - 修复ie下载问题

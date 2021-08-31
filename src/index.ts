@@ -46,8 +46,8 @@ export default class Json2Excel {
   }
 
   toChsKeys (json: any[], keyMap: any) {
-    let newItem: { [x: string]: object; } = {}
     return json.map(item => {
+      let newItem: { [x: string]: object; } = {};
 
       if (this.orderedKey.length) {
         // 指定key顺序，适用于需要key按照一定顺序，并且只保留key中存在的字段

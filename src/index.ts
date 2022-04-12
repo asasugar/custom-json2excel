@@ -1,14 +1,14 @@
 interface IJson2ExcelParam {
   data: object[];
-  orderedKey: string[];
-  filters: string[];
-  title: any[];
-  footer: any[];
-  keyMap: object;
-  name: string;
-  type: string;
-  onStart: () => void;
-  onSuccess: () => void;
+  orderedKey?: string[];
+  filters?: string[];
+  title?: any[];
+  footer?: any[];
+  keyMap?: object;
+  name?: string;
+  type?: string;
+  onStart?: () => void;
+  onSuccess?: () => void;
 }
 export default class Json2Excel {
   data: object[];

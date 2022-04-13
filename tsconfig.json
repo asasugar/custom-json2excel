@@ -1,19 +1,23 @@
 {
   "compilerOptions": {
-    "noImplicitAny": true,
-    "removeComments": true,
-    "preserveConstEnums": true,
-    "sourceMap": true,
-    "alwaysStrict": true,
-    "declaration": true,
-    "listEmittedFiles": true,
-    "noUnusedLocals": true,
-    "lib": ["DOM","ES6"]
+		"strict": true,
+		"target": "esnext",
+		"module": "esnext",
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"declaration": true,
+		"declarationDir": "./dist/types",
+		"declarationMap": true,
+		"outDir": "./dist",
+		"sourceMap": true,
+		"skipLibCheck": true,
+		"isolatedModules": true,
+		"moduleResolution": "node",
+		"resolveJsonModule": true, 
+		"lib": ["esnext", "dom"], 
+		"types": ["node"]
   },
   "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
+	  "src/*",
   ]
 }

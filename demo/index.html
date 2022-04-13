@@ -10,10 +10,9 @@
 <body>
 
 </body>
-<script src="../dist/index.js"></script>
+<script src="../dist/index.umd.js"></script>
 <script>
-  const data = [
-    {
+  const data = [{
       name: "哈哈",
       age: 1,
       sex: "男",
@@ -42,7 +41,9 @@
       companyAddress: "公司地址4"
     }
   ];
-  const json2excel = new customJson2excel({ data });
+  const json2excel = new customJson2excel({
+    data
+  });
   json2excel.generate();
 </script>
 

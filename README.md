@@ -1,7 +1,10 @@
 # custom-json2excel
 
-
 ## 更新内容
+
+### v3.1.3
+
+- 重构ts代码，分别导致cjs, esm, umd模块包
 
 ### v3.1.2
 
@@ -26,25 +29,7 @@ npm install custom-json2excel
 
 ## How to use?
 
-### 方法一:
-
-1、下载 `dist` 文件夹 `index.js`;
-
-2、`script` 标签引入：
- 
-<script src="xx/index.js"></script>
-
-3、`index.html` 中使用：
-
-```html
-const data = [
-  ...
-];
-const json2excel = new CustomJson2excel({ data, keyMap });
-json2excel.generate();
-```
-
-### 方法二：
+### 方法一：
 1、直接转化 json：
 
 ```js
@@ -363,7 +348,25 @@ const json2excel = new Json2excel({
 });
 json2excel.generate();
 ```
+### 方法二:
 
+>(示例: deme/index.html)
+
+1、下载 `dist` 文件夹 `index.umd.js`;
+
+2、`script` 标签引入：
+ 
+<script src="xx/index.umd.js"></script>
+
+3、`index.html` 中使用：
+
+```html
+const data = [
+  ...
+];
+const json2excel = new CustomJson2excel({ data, keyMap });
+json2excel.generate();
+```
 ## Props type
 
 | _Prop_    | _Type_   | _Defaults_ | _Required_ | _Description_                                                      |

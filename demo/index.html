@@ -17,32 +17,71 @@
       age: 1,
       sex: "男",
       companyName: "公司1",
-      companyAddress: "公司地址1"
+      companyAddress: "公司地址1",
+      love: {
+        study: {
+          book: '语文'
+        }
+      },
+      v: {
+        key: 1
+      }
     },
     {
       name: "呵呵",
       age: 2,
       sex: "女",
       companyName: "公司2",
-      companyAddress: "公司地址2"
+      companyAddress: "公司地址2",
+      love: {
+        study: {
+          book: '数学'
+        }
+      },
+      v: {
+        key: 2
+      }
     },
     {
       name: "嘻嘻",
       age: 3,
       sex: "男",
       companyName: "公司3",
-      companyAddress: "公司地址3"
+      companyAddress: "公司地址3",
+      love: {
+        study: {
+          book: '英语'
+        }
+      },
+      v: {
+        key: 3
+      }
     },
     {
       name: "啦啦",
       age: 4,
       sex: "女",
       companyName: "公司4",
-      companyAddress: "公司地址4"
+      companyAddress: "公司地址4",
+      love: {
+        study: {
+          book: '化学'
+        }
+      },
+      v: {
+        key: 4
+      }
     }
   ];
+  const scope = {
+    love: {
+      'study': 'book'
+    },
+    v: 'key'
+  }
   const json2excel = new customJson2excel({
-    data
+    data,
+    scope
   });
   json2excel.generate();
 </script>

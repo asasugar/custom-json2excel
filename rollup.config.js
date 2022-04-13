@@ -23,12 +23,7 @@ export default {
   input: "src/index.ts",
   output: [
     {
-      name,
-      file: packageJSON.main, // es模块 => import / export支持动态加载，且支持浏览器直接通过 <script type="module"> 即可使用该写法
-      format: "es",
-    },
-    {
-      file: packageJSON.commonjs, // commonjs模块 => Node.js上运行
+      file: packageJSON.main, // commonjs模块 => Node.js上运行
       format: 'cjs',
       name,
       exports: 'auto'
@@ -38,7 +33,11 @@ export default {
       format: 'umd',
       name,
     },
-
+    {
+      name,
+      file: packageJSON.module, // es模块 => import / export支持动态加载，且支持浏览器直接通过 <script type="module"> 即可使用该写法
+      format: "es",
+    },
   ],
   plugins: [
     resolve(extensions),

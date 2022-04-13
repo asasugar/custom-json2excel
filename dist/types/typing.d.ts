@@ -6,8 +6,9 @@ export interface IElsExtend {
     name: string;
     colspan: number;
 }
-export interface IJson2ExcelParam<T> {
-    data: T[];
+export interface IJson2ExcelParam {
+    data: TArray;
+    scope?: TObject;
     orderedKey?: string[];
     filters?: string[];
     title?: IElsExtend[];
@@ -17,5 +18,6 @@ export interface IJson2ExcelParam<T> {
     type?: 'xls' | 'csv';
     onStart?: () => void;
     onSuccess?: () => void;
+    onError?: (err?: any) => void;
 }
 //# sourceMappingURL=typing.d.ts.map

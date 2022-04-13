@@ -1,6 +1,7 @@
-import { TObject, IJson2ExcelParam, IElsExtend } from './typing';
-export default class Json2Excel<T> {
-    data: T[];
+import { TObject, TArray, IJson2ExcelParam, IElsExtend } from './typing';
+export default class Json2Excel {
+    data: TArray;
+    scope?: TObject;
     orderedKey?: string[];
     filters?: string[];
     title?: IElsExtend[];
@@ -10,8 +11,11 @@ export default class Json2Excel<T> {
     type?: 'xls' | 'csv';
     onStart?: () => void;
     onSuccess?: () => void;
-    constructor({ data, orderedKey, filters, title, footer, keyMap, name, type, onStart, onSuccess, }: IJson2ExcelParam<T>);
+    onError?: (err?: any) => void;
+    constructor({ data, scope, orderedKey, filters, title, footer, keyMap, name, type, onStart, onSuccess, onError, }: IJson2ExcelParam);
     generate(): void;
+    private isObject;
+    private getObjLastValue;
     private toChsKeys;
     private download;
     private export;

@@ -1,7 +1,8 @@
 import { TObject, TArray, IJson2ExcelParam, IElsExtend } from './typing';
 
-export default class Json2Excel<T> {
-  data: T[];
+export default class Json2Excel {
+  data: TArray;
+  scope?: TObject;
   orderedKey?: string[];
   filters?: string[];
   title?: IElsExtend[];
@@ -11,9 +12,11 @@ export default class Json2Excel<T> {
   type?: 'xls' | 'csv';
   onStart?: () => void;
   onSuccess?: () => void;
+  onError?: (err?: any) => void;
 
   constructor({
     data = [],
+    scope = {},
     orderedKey = [],
     filters = [],
     title = [],
@@ -23,8 +26,10 @@ export default class Json2Excel<T> {
     type = 'xls',
     onStart = () => {},
     onSuccess = () => {},
-  }: IJson2ExcelParam<T>) {
+    onError = (err) => {},
+  }: IJson2ExcelParam) {
     this.data = data;
+    this.scope = scope;
     this.filters = filters;
     this.footer = footer;
     this.orderedKey = orderedKey;
@@ -34,19 +39,19 @@ export default class Json2Excel<T> {
     this.type = type;
     this.onStart = onStart;
     this.onSuccess = onSuccess;
+    this.onError = onError;
   }
 
   public generate() {
     if (!this.data || !this.data.length) {
+      this.onError && this.onError();
       return;
     }
     this.onStart && this.onStart();
     let json = this.getProcessedJson(this.data);
 
     // 过滤、按照指定顺序、keyMap操作
-    if (this.keyMap && Object.keys(this.keyMap).length) {
-      json = this.toChsKeys(json, this.keyMap);
-    }
+    json = this.toChsKeys(json);
 
     if (this.type == 'csv') {
       return this.export(
@@ -62,43 +67,63 @@ export default class Json2Excel<T> {
     );
   }
 
-  private toChsKeys(json: TArray, keyMap: TObject): TArray {
+  private isObject(obj?: any) {
+    return typeof obj === 'object' && obj !== null;
+  }
+
+  private getObjLastValue(obj?: any, scope?: any): unknown {
+    console.log(111, obj[scope]);
+    if (this.isObject(scope)) {
+      let k = Object.keys(scope)[0];
+      let v = Object.values(scope)[0];
+      return this.getObjLastValue(obj[k], v);
+    }
+    return obj[scope];
+  }
+
+  private toChsKeys(json: TArray): TArray {
     return json.map((item) => {
       let newItem: TObject = {};
 
+      // step 1: 指定key顺序，适用于需要key按照一定顺序，并且只保留key中存在的字段
       if (this.orderedKey && this.orderedKey.length) {
-        // 指定key顺序，适用于需要key按照一定顺序，并且只保留key中存在的字段
         for (let keyItem of this.orderedKey) {
-          if (keyMap.hasOwnProperty(keyItem)) {
-            newItem[keyMap[keyItem]] = item[keyItem];
-          } else {
-            newItem[keyItem] = item[keyItem];
-          }
+          newItem[keyItem] = item[keyItem];
         }
-      } else if (this.filters && this.filters.length) {
-        // 过滤key，适用于需要过滤的key较少
+      }
+
+      // step 2: 判断是否需要额外过滤数据（正常情况指定了orderedKey的话，可不需要配置该字段就支持过滤）
+      if (this.filters && this.filters.length) {
         for (let filterItem of this.filters) {
-          delete item[filterItem];
-          for (let key in item) {
-            if (keyMap.hasOwnProperty(key)) {
-              // 替换的数据赋值
-              newItem[keyMap[key]] = item[key];
-            } else {
-              newItem[key] = item[key];
-            }
-          }
+          delete newItem[filterItem];
         }
-      } else {
-        // 不需要过滤key或者指定key
-        for (let key in item) {
-          if (keyMap.hasOwnProperty(key)) {
-            newItem[keyMap[key]] = item[key];
-          } else {
-            newItem[key] = item[key];
+      }
+
+      // step 3: 判断scope，获取深层次数据展示
+      if (this.scope && Object.keys(this.scope).length) {
+        let scopeItem = Object.keys(newItem).length ? newItem : item;
+        for (let key in scopeItem) {
+          if (this.scope.hasOwnProperty(key)) {
+            scopeItem[key] = this.getObjLastValue(
+              scopeItem[key],
+              this.scope[key]
+            );
           }
         }
       }
-      return newItem;
+
+      // step 4: keyMap 映射表，自定义表格列名称
+
+      if (this.keyMap && Object.keys(this.keyMap).length) {
+        for (let key in newItem) {
+          if (this.keyMap.hasOwnProperty(key)) {
+            newItem[this.keyMap[key]] = newItem[key];
+            delete newItem[key];
+          }
+        }
+      }
+
+      return Object.keys(newItem).length ? newItem : item;
     });
   }
 
@@ -133,7 +158,9 @@ export default class Json2Excel<T> {
       .then(() => {
         this.onSuccess && this.onSuccess();
       })
-      .catch(() => {});
+      .catch((err) => {
+        this.onError && this.onError(err);
+      });
   }
 
   /*

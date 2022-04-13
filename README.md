@@ -2,6 +2,14 @@
 
 ## 更新内容
 
+
+### v3.1.4
+
+- 新增 `scope` 参数
+- 新增 `onError` 回调函数
+- bug 修复
+
+
 ### v3.1.3
 
 - 重构ts代码，分别导出cjs, esm, umd模块包
@@ -344,10 +352,89 @@ const json2excel = new Json2excel({
   },
   onSuccess: () => {
     console.log("成功");
+  },
+  onError: (err) => {
+    console.log(err)
   }
 });
 json2excel.generate();
 ```
+
+7、scope使用：
+
+```js
+import Json2excel from "custom-json2excel";
+const data = [{
+    name: "哈哈",
+    age: 1,
+    sex: "男",
+    companyName: "公司1",
+    companyAddress: "公司地址1",
+    love: {
+      study: {
+        book: '语文'
+      }
+    },
+    v: {
+      key: 1
+    }
+  },
+  {
+    name: "呵呵",
+    age: 2,
+    sex: "女",
+    companyName: "公司2",
+    companyAddress: "公司地址2",
+    love: {
+      study: {
+        book: '数学'
+      }
+    },
+    v: {
+      key: 2
+    }
+  },
+  {
+    name: "嘻嘻",
+    age: 3,
+    sex: "男",
+    companyName: "公司3",
+    companyAddress: "公司地址3",
+    love: {
+      study: {
+        book: '英语'
+      }
+    },
+    v: {
+      key: 3
+    }
+  },
+  {
+    name: "啦啦",
+    age: 4,
+    sex: "女",
+    companyName: "公司4",
+    companyAddress: "公司地址4",
+    love: {
+      study: {
+        book: '化学'
+      }
+    },
+    v: {
+      key: 4
+    }
+  }];
+
+const scope = {
+  love: {'study': 'book'},
+  v: 'key'
+}
+const json2excel = new Json2excel({ data ,scope });
+json2excel.generate();
+```
+
+![20220413194425](https://raw.githubusercontent.com/asasugar/pic-bed/master/imgs/20220413194425.png)
+
 ### 方法二:
 
 >(示例: deme/index.html)
@@ -378,6 +465,8 @@ json2excel.generate();
 | keyMap    | Object   | {}         | ×          | keyMap 映射表，用于自定义表格头部名称                              |
 | name      | String   | excel      | ×          | excel 表格名称                                                     |
 | title     | Array    | []         | ×          | 表格标题名称 {name:String,colspan:Number} name:名称， colspan:列数 |
-| type      | String   | xls        | ×          | 生成的表格类型，可选值(xls、csv)                                   |
+| type      | String   | xls        | ×          | 生成的表格类型，可选值(xls、csv)    
+| scope   | Object /String |            | ×          | 比渲染的数据层级较多深，扁平化处理                                |
 | onStart   | Function |            | ×          | 生成 Excel 前的回调函数                                            |
-| onSuccess | Function |            | ×          | 生成 Excel 成功的回调函数                                          |
+| onSuccess | Function |            | ×          | 生成 Excel 成功的回调函数       
+| onError | Function |            | ×          | 生成 Excel 失败的回调函数                                     |

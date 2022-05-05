@@ -465,7 +465,7 @@ json2excel.generate();
 | data      | Array    | []         | ✓          | 转化成表格初始 json 数据                                           |
 | orderedKey   | Array    | []         | ×          | 按照key顺序返回列，不在数组中的字段将自动过滤，优先级大于`filters`                                                 |
 | filters   | Array    | []         | ×          | 需要过滤的字段数组,适用于需过滤的数据较少                                                 |                                    |
-| keyMap    | Object   | {}         | ×          | keyMap 映射表，用于自定义表格列名称，且列顺序会按照keyMap排序，优先级大于orderedKey                              |
+| keyMap    | Object   | {}         | ×          | keyMap 映射表，用于自定义表格列名称                              |
 | name      | String   | excel      | ×          | excel 表格名称                                                     |
 | title     | Array    | []         | ×          | 表格标题名称 {name:String,colspan:Number} name:名称， colspan:列数 |
 | footer    | Array    | []         | ×          | 表格最后一列名称，参数同 title 

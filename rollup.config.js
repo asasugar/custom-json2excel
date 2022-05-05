@@ -1,4 +1,3 @@
-// import babel from "rollup-plugin-babel";
 import { uglify } from "rollup-plugin-uglify";
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
@@ -23,15 +22,16 @@ export default {
   input: "src/index.ts",
   output: [
     {
+      name,
       file: packageJSON.main, // commonjs模块 => Node.js上运行
       format: 'cjs',
-      name,
       exports: 'auto'
     },
     {
+      name,
       file: packageJSON.browser, // 通用模块 => 同时兼容 CJS 和 AMD，并且支持直接在前端用 <script src="lib.umd.js"></script> 
       format: 'umd',
-      name,
+      exports: "default",
     },
     {
       name,
@@ -48,11 +48,5 @@ export default {
       tsconfig: getPath('./tsconfig.json'),
       extensions
     })
-
-    // babel({
-    //   exclude: "node_modules/**"
-    // }),
-    // uglify(),
-    // typescript(/*{ plugin options }*/)
   ]
 };

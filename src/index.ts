@@ -72,7 +72,6 @@ export default class Json2Excel {
   }
 
   private getObjLastValue(obj?: any, scope?: any): unknown {
-    console.log(111, obj[scope]);
     if (this.isObject(scope)) {
       let k = Object.keys(scope)[0];
       let v = Object.values(scope)[0];
@@ -104,10 +103,12 @@ export default class Json2Excel {
         let scopeItem = Object.keys(newItem).length ? newItem : item;
         for (let key in scopeItem) {
           if (this.scope.hasOwnProperty(key)) {
-            scopeItem[key] = this.getObjLastValue(
+            newItem[key] = this.getObjLastValue(
               scopeItem[key],
               this.scope[key]
             );
+          } else {
+            newItem[key] = scopeItem[key];
           }
         }
       }
@@ -115,10 +116,11 @@ export default class Json2Excel {
       // step 4: keyMap 映射表，自定义表格列名称
 
       if (this.keyMap && Object.keys(this.keyMap).length) {
-        for (let key in newItem) {
+        let keyMapItem = Object.keys(newItem).length ? newItem : item;
+        for (let key in keyMapItem) {
           if (this.keyMap.hasOwnProperty(key)) {
-            newItem[this.keyMap[key]] = newItem[key];
-            delete newItem[key];
+            newItem[this.keyMap[key]] = keyMapItem[key];
+            delete keyMapItem[key];
           }
         }
       }

@@ -1,6 +1,6 @@
-# @asasugar/custom-json2excel
+# @asasugar-use/custom-json2excel
 
-## npm 账号切换新账号了，重新发包，包名更新@asasugar/custom-json2excel
+## npm 账号切换新账号了，重新发包，包名更新@asasugar-use/custom-json2excel
 
 ## 更新内容
 
@@ -38,9 +38,9 @@
 ## Plugin setup
 
 ```
-yarn add custom-json2excel
+yarn add @asasugar-use/custom-json2excel
 or
-npm install custom-json2excel
+npm install @asasugar-use/custom-json2excel
 ```
 
 ## How to use?
@@ -50,7 +50,7 @@ npm install custom-json2excel
 1、直接转化 json：
 
 ```js
-import Json2excel from '@asasugar/custom-json2excel';
+import Json2excel from '@asasugar-use/custom-json2excel';
 const data = [
   {
     name: '哈哈',
@@ -90,7 +90,7 @@ json2excel.generate();
 2、自定义头部无需过滤字段时的使用方式：
 
 ```js
-import Json2excel from '@asasugar/custom-json2excel';
+import Json2excel from '@asasugar-use/custom-json2excel';
 const data = [
   {
     name: '哈哈',
@@ -137,7 +137,7 @@ json2excel.generate();
 3、需要按照字段顺序返回表格列时的使用方式：
 
 ```js
-import Json2excel from '@asasugar/custom-json2excel';
+import Json2excel from '@asasugar-use/custom-json2excel';
 const data = [
   {
     name: '哈哈',
@@ -207,7 +207,7 @@ json2excel.generate();
 4、需要过滤字段时的使用方式：
 
 ```js
-import Json2excel from '@asasugar/custom-json2excel';
+import Json2excel from '@asasugar-use/custom-json2excel';
 const data = [
   {
     name: '哈哈',
@@ -255,7 +255,7 @@ json2excel.generate();
 5、需要表格标题时的使用方式：
 
 ```js
-import Json2excel from '@asasugar/custom-json2excel';
+import Json2excel from '@asasugar-use/custom-json2excel';
 const data = [
   {
     name: '哈哈',
@@ -307,7 +307,7 @@ json2excel.generate();
 6、绑定回调函数的使用方式：
 
 ```js
-import Json2excel from '@asasugar/custom-json2excel';
+import Json2excel from '@asasugar-use/custom-json2excel';
 const data = [
   {
     name: '哈哈',
@@ -371,7 +371,7 @@ json2excel.generate();
 7、scope 使用：
 
 ```js
-import Json2excel from '@asasugar/custom-json2excel';
+import Json2excel from '@asasugar-use/custom-json2excel';
 const data = [
   {
     name: '哈哈',

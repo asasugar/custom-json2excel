@@ -4,9 +4,13 @@
 
 ## 更新内容
 
+### 3.1.7
+
+- 更新包名@asasugar-use/custom-json2excel 和文档
+
 ### v3.1.6
 
-- 修复[#19](https://github.com/asasugar/custom-json2excel/issues/19)
+- 修复 0 开头的字符转化为 excel 被过滤的问题[#19](https://github.com/asasugar/custom-json2excel/issues/19)
 
 ### v3.1.5
 

@@ -1,17 +1,17 @@
-import { TObject, TArray, IJson2ExcelParam, IElsExtend } from './typing';
-
+import type { AnyObject, AnyObjectArray, VoidFunction, Json2ExcelParams, ElsExtend } from './typing';
+import { isFunction, isObject, isNullOrUnDef } from './utils/is';
 export default class Json2Excel {
-  data: TArray;
-  scope?: TObject;
+  data: AnyObjectArray;
+  scope?: AnyObject;
   orderedKey?: string[];
   filters?: string[];
-  title?: IElsExtend[];
-  footer?: IElsExtend[];
-  keyMap?: TObject;
+  title?: ElsExtend[];
+  footer?: ElsExtend[];
+  keyMap?: AnyObject;
   name?: string;
   type?: 'xls' | 'csv';
-  onStart?: () => void;
-  onSuccess?: () => void;
+  onStart?: VoidFunction;
+  onSuccess?: VoidFunction;
   onError?: (err?: any) => void;
 
   constructor({
@@ -24,10 +24,10 @@ export default class Json2Excel {
     keyMap = {},
     name = 'excel',
     type = 'xls',
-    onStart = () => {},
-    onSuccess = () => {},
-    onError = (err) => {},
-  }: IJson2ExcelParam) {
+    onStart = () => { },
+    onSuccess = () => { },
+    onError = (err) => { console.log(err) },
+  }: Json2ExcelParams) {
     this.data = data;
     this.scope = scope;
     this.filters = filters;
@@ -42,7 +42,7 @@ export default class Json2Excel {
     this.onError = onError;
   }
 
-  public generate() {
+  public generate () {
     if (!this.data || !this.data.length) {
       this.onError && this.onError();
       return;
@@ -67,12 +67,9 @@ export default class Json2Excel {
     );
   }
 
-  private isObject(obj?: any) {
-    return typeof obj === 'object' && obj !== null;
-  }
 
-  private getObjLastValue(obj?: any, scope?: any): unknown {
-    if (this.isObject(scope)) {
+  private getObjLastValue (obj?: any, scope?: any): unknown {
+    if (isObject(scope)) {
       let k = Object.keys(scope)[0];
       let v = Object.values(scope)[0];
       return this.getObjLastValue(obj[k], v);
@@ -80,9 +77,9 @@ export default class Json2Excel {
     return obj[scope];
   }
 
-  private toChsKeys(json: TArray): TArray {
+  private toChsKeys (json: AnyObjectArray): AnyObjectArray {
     return json.map((item) => {
-      let newItem: TObject = {};
+      let newItem: AnyObject = {};
 
       // step 1: 指定key顺序，适用于需要key按照一定顺序，并且只保留key中存在的字段
       if (this.orderedKey && this.orderedKey.length) {
@@ -114,7 +111,6 @@ export default class Json2Excel {
       }
 
       // step 4: keyMap 映射表，自定义表格列名称
-
       if (this.keyMap && Object.keys(this.keyMap).length) {
         let keyMapItem = Object.keys(newItem).length ? newItem : item;
         for (let key in keyMapItem) {
@@ -129,7 +125,7 @@ export default class Json2Excel {
     });
   }
 
-  private download(blob: Blob, filename: string) {
+  private download (blob: Blob, filename: string) {
     // IE浏览器
     if (window.navigator && (window.navigator as any).msSaveOrOpenBlob) {
       (window.navigator as any).msSaveOrOpenBlob(blob, filename);
@@ -152,7 +148,7 @@ export default class Json2Excel {
     }
   }
 
-  private export(data: string, filename: string, mime: string) {
+  private export (data: string, filename: string, mime: string) {
     new Promise((resolve) => {
       let blob = this.base64ToBlob(data, mime);
       resolve(this.download(blob, filename));
@@ -170,9 +166,9 @@ export default class Json2Excel {
   ---------------
   将json数据转换为XLS文件
   */
-  private jsonToXLS(data: TArray) {
+  private jsonToXLS (data: AnyObjectArray) {
     let xlsTemp =
-      '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta name=ProgId content=Excel.Sheet> <meta name=Generator content="Microsoft Excel 11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>${table}</table></body></html>';
+      '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta name=ProgId content=Excel.Sheet> <meta name=Generator content="Microsoft Excel 11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><style type="text/css">td{mso-number-format:\@;}</style></head><body><table>${table}</table></body></html>';
     let xlsData = '<thead><tr>';
     //Header
     if (this.title && this.title.length) {
@@ -188,10 +184,10 @@ export default class Json2Excel {
     xlsData += '</tr></thead>';
     xlsData += '<tbody>';
     //Data
-    data.map(function (item, index) {
+    data.map((item) => {
       xlsData += '<tbody><tr>';
       for (let key in item) {
-        xlsData += '<td>' + item[key] + '</td>';
+        xlsData += `<td>${item[key]}</td>`;
       }
       xlsData += '</tr></tbody>';
     });
@@ -211,7 +207,7 @@ export default class Json2Excel {
   ---------------
   将json数据转换为CSV文件
   */
-  private jsonToCSV(data: TArray) {
+  private jsonToCSV (data: AnyObjectArray) {
     var csvData = '';
     //Header
     if (this.title && this.title.length) {
@@ -227,7 +223,7 @@ export default class Json2Excel {
     csvData = csvData.slice(0, csvData.length - 1);
     csvData += '\r\n';
     //Data
-    data.map(function (item) {
+    data.map((item) => {
       for (let key in item) {
         let escapedCSV = item[key] + ''; // cast Numbers to string
         if (escapedCSV.match(/[,"\n]/)) {
@@ -248,11 +244,11 @@ export default class Json2Excel {
     return csvData;
   }
 
-  private getProcessedJson(data: TArray) {
+  private getProcessedJson (data: AnyObjectArray) {
     let keys = this.getKeys(data);
-    let newData: TArray = [];
-    data.map((item: TObject) => {
-      let newItem: TObject = {};
+    let newData: AnyObjectArray = [];
+    data.map((item: AnyObject) => {
+      let newItem: AnyObject = {};
       for (let label in keys) {
         let property = keys[label];
         newItem[label] = this.getNestedData(property, item);
@@ -263,16 +259,16 @@ export default class Json2Excel {
     return newData;
   }
 
-  private getKeys(data: TArray): TObject {
-    let keys: TObject = {};
+  private getKeys (data: AnyObjectArray): AnyObject {
+    let keys: AnyObject = {};
     for (let key in data[0]) {
       keys[key] = key;
     }
     return keys;
   }
 
-  private getNestedData(key: { field: any }, item: { [x: string]: any }) {
-    const field = typeof key === 'object' ? key.field : key;
+  private getNestedData (key: { field: any }, item: { [x: string]: any }) {
+    const field = isObject(key) ? key.field : key;
 
     let valueFromNestedKey = null;
     let keyNestedSplit = `${field}`.split('.');
@@ -285,26 +281,25 @@ export default class Json2Excel {
     valueFromNestedKey = this.callItemCallback(key, valueFromNestedKey);
 
     valueFromNestedKey =
-      valueFromNestedKey === null || valueFromNestedKey === undefined
+      isNullOrUnDef(valueFromNestedKey)
         ? ''
         : valueFromNestedKey; // 过滤null、undefined的值
-
     return valueFromNestedKey;
   }
 
-  private callItemCallback(
+  private callItemCallback (
     field: { field?: any; callback?: any },
     itemValue: any
   ) {
-    if (typeof field === 'object' && typeof field.callback === 'function') {
+    if (isObject(field) && isFunction(field.callback)) {
       return field.callback(itemValue);
     }
     return itemValue;
   }
 
-  private base64ToBlob(data: string | number | boolean, mime: string) {
+  private base64ToBlob (data: string | number | boolean, mime: string) {
     let base64 = window.btoa(window.unescape(encodeURIComponent(data)));
-    let bstr = atob(base64);
+    let bstr = window.atob(base64);
     let n = bstr.length;
     let u8arr = new Uint8ClampedArray(n);
     while (n--) {

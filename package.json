@@ -1,14 +1,15 @@
 {
   "name": "custom-json2excel",
-  "version": "3.1.5",
+  "version": "3.1.6",
   "description": "✌传入json，可自定义表格标题名称和列数、头部名称、过滤列和绑定生成开始与成功的回调函数",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "browser": "dist/index.umd.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
+    "dev": "rollup -c --watch",
     "build": "rollup -c",
-    "prepublish": "npm run build"
+    "prepublish": "yarn build"
   },
   "repository": {
     "type": "git",

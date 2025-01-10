@@ -10,7 +10,7 @@
 <body>
 
 </body>
-<script src="../dist/index.umd.js"></script>
+<script src="../lib/index.umd.js"></script>
 <script>
   const data = [{
       name: "哈哈",
@@ -79,7 +79,7 @@
     },
     v: 'key'
   }
-  const json2excel = new customJson2excel({
+  const json2excel = new CustomJson2excel.default({
     data,
     scope
   });

@@ -26,7 +26,7 @@ export default class Json2Excel {
     type = 'xls',
     onStart = () => { },
     onSuccess = () => { },
-    onError = (err) => { console.log(err) },
+    onError = (err) => { console.log(err); },
   }: Json2ExcelParams) {
     this.data = data;
     this.scope = scope;
@@ -267,7 +267,7 @@ export default class Json2Excel {
     return keys;
   }
 
-  private getNestedData (key: { field: any }, item: { [x: string]: any }) {
+  private getNestedData (key: { field: any; }, item: { [x: string]: any; }) {
     const field = isObject(key) ? key.field : key;
 
     let valueFromNestedKey = null;
@@ -288,7 +288,7 @@ export default class Json2Excel {
   }
 
   private callItemCallback (
-    field: { field?: any; callback?: any },
+    field: { field?: any; callback?: any; },
     itemValue: any
   ) {
     if (isObject(field) && isFunction(field.callback)) {

@@ -462,7 +462,7 @@ json2excel.generate();
 3、`index.html` 中使用：
 
 ```html
-const data = [ ... ]; const json2excel = new CustomJson2excel({ data, keyMap });
+const data = [ ... ]; const json2excel = new CustomJson2excel.default({ data, keyMap });
 json2excel.generate();
 ```
 

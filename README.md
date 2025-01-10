@@ -468,17 +468,17 @@ json2excel.generate();
 
 ## Props type
 
-| _Prop_     | _Type_         | _Defaults_ | _Required_ | _Description_                                                        |
-| :--------- | :------------- | :--------- | :--------- | -------------------------------------------------------------------- | --- |
-| data       | Array          | []         | ✓          | 转化成表格初始 json 数据                                             |
-| orderedKey | Array          | []         | ×          | 按照 key 顺序返回列，不在数组中的字段将自动过滤，优先级大于`filters` |
-| filters    | Array          | []         | ×          | 需要过滤的字段数组,适用于需过滤的数据较少                            |     |
-| keyMap     | Object         | {}         | ×          | keyMap 映射表，用于自定义表格列名称                                  |
-| name       | String         | excel      | ×          | excel 表格名称                                                       |
-| title      | Array          | []         | ×          | 表格标题名称 {name:String,colspan:Number} name:名称， colspan:列数   |
-| footer     | Array          | []         | ×          | 表格最后一列名称，参数同 title                                       |
-| type       | String         | xls        | ×          | 生成的表格类型，可选值(xls、csv)                                     |
-| scope      | Object /String |            | ×          | 渲染的数据层级较深时扁平化处理                                       |
-| onStart    | Function       |            | ×          | 生成 Excel 前的回调函数                                              |
-| onSuccess  | Function       |            | ×          | 生成 Excel 成功的回调函数                                            |
-| onError    | Function       |            | ×          | 生成 Excel 失败的回调函数                                            |
+| Prop       | Type         | Defaults | Required | Description                                                        |
+| :--------- | :----------- | :------- | :------- | :----------------------------------------------------------------- |
+| data       | Array        | []       | ✓        | 转化成表格初始 json 数据                                           |
+| orderedKey | Array        | []       | ×        | 按照 key 顺序返回列，不在数组中的字段将自动过滤，优先级大于 `filters` |
+| filters    | Array        | []       | ×        | 需要过滤的字段数组,适用于需过滤的数据较少                          |
+| keyMap     | Object       | {}       | ×        | keyMap 映射表，用于自定义表格列名称                                |
+| name       | String       | excel    | ×        | excel 表格名称                                                     |
+| title      | Array        | []       | ×        | 表格标题名称 {name:String,colspan:Number} name:名称， colspan:列数   |
+| footer     | Array        | []       | ×        | 表格最后一列名称，参数同 title                                       |
+| type       | String       | xls      | ×        | 生成的表格类型，可选值(xls、csv)                                     |
+| scope      | Object/String |          | ×        | 渲染的数据层级较深时扁平化处理                                       |
+| onStart    | Function     |          | ×        | 生成 Excel 前的回调函数                                              |
+| onSuccess  | Function     |          | ×        | 生成 Excel 成功的回调函数                                            |
+| onError    | Function     |          | ×        | 生成 Excel 失败的回调函数                                            |

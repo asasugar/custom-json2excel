@@ -3,7 +3,7 @@
  * @Author: Xiongjie.Xue(xxj95719@gmail.com)
  * @Date: 2022-11-04 10:56:01
  * @LastEditors: Xiongjie.Xue(xxj95719@gmail.com)
- * @LastEditTime: 2022-12-06 14:01:13
+ * @LastEditTime: 2025-01-10 18:34:02
  */
 
 const toString = Object.prototype.toString;
@@ -136,4 +136,17 @@ export function isJsonStr (str: string) {
       return false;
     }
   }
+}
+
+/**
+ * @description 判断一个字符串是否为 Base64 字符串格式
+ * @export
+ * @param {string} str
+ * @returns {*}  {boolean}
+ */
+export function isBase64 (str: string) {
+  if (!str) return false;
+  // 验证 Base64 字符串格式
+  const base64Regex = /^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$/;
+  return base64Regex.test(str);
 }

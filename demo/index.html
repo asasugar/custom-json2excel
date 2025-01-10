@@ -1,89 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Demo</title>
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo</title>
+  </head>
 
-<body>
-
-</body>
-<script src="../lib/index.umd.js"></script>
-<script>
-  const data = [{
-      name: "哈哈",
-      age: 1,
-      sex: "男",
-      companyName: "公司1",
-      companyAddress: "公司地址1",
-      love: {
-        study: {
-          book: '语文'
+  <body>
+    <button onclick="handleExportExcel()">导出 excel</button>
+    <p>
+      <input
+        type="file"
+        accept=".xlsx, .xls, .csv"
+        onchange="handleInputClick(this)" />
+    </p>
+  </body>
+  <script src="../lib/index.umd.js"></script>
+  <script>
+    function handleExportExcel() {
+      const data = [{
+        name: "哈哈",
+        age: 1,
+        sex: "男",
+        companyName: "公司1",
+        companyAddress: "公司地址1",
+        love: {
+          study: {
+            book: '语文'
+          }
+        },
+        v: {
+          key: 1
         }
       },
-      v: {
-        key: 1
-      }
-    },
-    {
-      name: "呵呵",
-      age: 2,
-      sex: "女",
-      companyName: "公司2",
-      companyAddress: "公司地址2",
-      love: {
-        study: {
-          book: '数学'
+      {
+        name: "呵呵",
+        age: 2,
+        sex: "女",
+        companyName: "公司2",
+        companyAddress: "公司地址2",
+        love: {
+          study: {
+            book: '数学'
+          }
+        },
+        v: {
+          key: 2
         }
       },
-      v: {
-        key: 2
-      }
-    },
-    {
-      name: "嘻嘻",
-      age: 3,
-      sex: "男",
-      companyName: "公司3",
-      companyAddress: "公司地址3",
-      love: {
-        study: {
-          book: '英语'
+      {
+        name: "嘻嘻",
+        age: 3,
+        sex: "男",
+        companyName: "公司3",
+        companyAddress: "公司地址3",
+        love: {
+          study: {
+            book: '英语'
+          }
+        },
+        v: {
+          key: 3
         }
       },
-      v: {
-        key: 3
-      }
-    },
-    {
-      name: "啦啦",
-      age: 4,
-      sex: "女",
-      companyName: "公司4",
-      companyAddress: "公司地址4",
-      love: {
-        study: {
-          book: '化学'
+      {
+        name: "啦啦",
+        age: 4,
+        sex: "女",
+        companyName: "公司4",
+        companyAddress: "公司地址4",
+        love: {
+          study: {
+            book: '化学'
+          }
+        },
+        v: {
+          key: 4
         }
-      },
-      v: {
-        key: 4
       }
+      ];
+      const scope = {
+        love: {
+          'study': 'book'
+        },
+        v: 'key'
+      };
+      const json2excel = new CustomJson2excel.default({
+        data,
+        scope
+      });
+      json2excel.generate();
     }
-  ];
-  const scope = {
-    love: {
-      'study': 'book'
-    },
-    v: 'key'
-  }
-  const json2excel = new CustomJson2excel.default({
-    data,
-    scope
-  });
-  json2excel.generate();
-</script>
+
+    async function handleInputClick(e) {
+      const files = e?.files;
+      const rawFile = files?.[0]; // only setting files[0]
+
+      if (!rawFile) return;
+
+      const json2excel = new CustomJson2excel.default({});
+      const json = await json2excel.sheetToJson(rawFile);
+      console.log('%c [ rawFile ]-99', 'font-size:13px; background:pink; color:#bf2c9f;', json);
+
+    }
+    function handleExportJson() {
+
+    }
+  </script>
 
 </html>

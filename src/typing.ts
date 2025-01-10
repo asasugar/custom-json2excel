@@ -21,3 +21,9 @@ export interface Json2ExcelParams {
   onSuccess?: VoidFunction;
   onError?: (err?: any) => void;
 }
+
+export interface ExcelData<T = any> {
+  header: string[];
+  results: T[];
+  meta: { sheetName: string; };
+}

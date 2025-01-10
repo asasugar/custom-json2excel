@@ -1,0 +1,10 @@
+/* @license
+Papa Parse
+v5.5.0
+https://github.com/mholt/PapaParse
+License: MIT
+*/
+
+/*! sheetjs (C) 2013-present SheetJS -- http://sheetjs.com */
+
+/*! xlsx.js (C) 2013-present SheetJS -- http://sheetjs.com */

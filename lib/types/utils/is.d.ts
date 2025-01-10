@@ -34,3 +34,10 @@ export declare function isValidMap(map: any): map is any[] | Record<any, any>;
  * @returns {*}  {boolean}
  */
 export declare function isJsonStr(str: string): boolean | undefined;
+/**
+ * @description 判断一个字符串是否为 Base64 字符串格式
+ * @export
+ * @param {string} str
+ * @returns {*}  {boolean}
+ */
+export declare function isBase64(str: string): boolean;

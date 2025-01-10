@@ -1,6 +1,6 @@
-export declare type AnyObject = Record<string, any>;
-export declare type AnyObjectArray = AnyObject[];
-export declare type VoidFunction = () => void;
+export type AnyObject = Record<string, any>;
+export type AnyObjectArray = AnyObject[];
+export type VoidFunction = () => void;
 export interface ElsExtend {
     name: string;
     colspan: number;

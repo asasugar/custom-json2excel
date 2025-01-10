@@ -13,8 +13,8 @@
 		"skipLibCheck": true,
 		"isolatedModules": true,
 		"moduleResolution": "node",
-		"resolveJsonModule": true, 
-		"lib": ["esnext", "dom"], 
+		"resolveJsonModule": true,
+		"lib": ["esnext", "dom"],
 		"types": ["node"]
   },
   "include": [

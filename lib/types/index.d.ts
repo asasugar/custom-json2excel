@@ -1,6 +1,6 @@
 import type { AnyObject, AnyObjectArray, VoidFunction, Json2ExcelParams, ElsExtend } from './typing';
-export default class Json2Excel {
-    data?: AnyObjectArray;
+export declare class JsonToExcel {
+    data: AnyObjectArray;
     scope?: AnyObject;
     orderedKey?: string[];
     filters?: string[];
@@ -14,7 +14,6 @@ export default class Json2Excel {
     onError?: (err?: any) => void;
     constructor({ data, scope, orderedKey, filters, title, footer, keyMap, name, type, onStart, onSuccess, onError, }: Json2ExcelParams);
     generate(): void;
-    sheetToJson(rawFile: File): Promise<import("./typing").ExcelData<any>[]>;
     private _getObjLastValue;
     /**
      * 将 JSON 数据中的键名转换为自定义（如果有配置）
@@ -79,3 +78,4 @@ export default class Json2Excel {
      */
     private _callItemCallback;
 }
+export declare function excelToJson(rawFile: File): Promise<import("./typing").ExcelData<any>[]>;

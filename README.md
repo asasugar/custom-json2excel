@@ -4,6 +4,11 @@
 
 ## 更新内容
 
+### 3.1.9
+
+- 默认导出 `Json2excel` 类调整为具名导出 `JsonToExcel` 类和 `excelToJson` 方法
+- 更新 `example` ，react 示例和 html 示例
+
 ### 3.1.8
 
 - 新增 `sheetToJson` 方法，支持导入 excel 输出json功能
@@ -51,18 +56,20 @@
 yarn add @asasugar-use/custom-json2excel
 or
 npm install @asasugar-use/custom-json2excel
+or
+pnpm add @asasugar-use/custom-json2excel
 ```
 
 ## How to use?
 
-### 方法一：
+### 方法一
 
 > (示例: example/react/src/router/antd-layout.tsx)
 
 1、直接转化 json：
 
 ```js
-import Json2excel from '@asasugar-use/custom-json2excel';
+import { JsonToExcel } from '@asasugar-use/custom-json2excel';
 const data = [
   {
     name: '哈哈',
@@ -93,7 +100,7 @@ const data = [
     companyAddress: '公司地址4',
   },
 ];
-const json2excel = new Json2excel({ data });
+const json2excel = new JsonToExcel({ data });
 json2excel.generate();
 ```
 
@@ -102,7 +109,7 @@ json2excel.generate();
 2、自定义头部无需过滤字段时的使用方式：
 
 ```js
-import Json2excel from '@asasugar-use/custom-json2excel';
+import { JsonToExcel } from '@asasugar-use/custom-json2excel';
 const data = [
   {
     name: '哈哈',
@@ -140,7 +147,7 @@ const keyMap = {
   companyName: '公司名称',
   companyAddress: '公司地址',
 };
-const json2excel = new Json2excel({ data, keyMap });
+const json2excel = new JsonToExcel({ data, keyMap });
 json2excel.generate();
 ```
 
@@ -149,7 +156,7 @@ json2excel.generate();
 3、需要按照字段顺序返回表格列时的使用方式：
 
 ```js
-import Json2excel from '@asasugar-use/custom-json2excel';
+import { JsonToExcel } from '@asasugar-use/custom-json2excel';
 const data = [
   {
     name: '哈哈',
@@ -188,7 +195,7 @@ const keyMap = {
   companyAddress: '公司地址',
 };
 const orderedKey = ['sex', 'companyName', 'name'];
-const json2excel = new Json2excel({ data, keyMap, orderedKey });
+const json2excel = new JsonToExcel({ data, keyMap, orderedKey });
 json2excel.generate();
 
 // data会转化成=>
@@ -219,7 +226,7 @@ json2excel.generate();
 4、需要过滤字段时的使用方式：
 
 ```js
-import Json2excel from '@asasugar-use/custom-json2excel';
+import { JsonToExcel } from '@asasugar-use/custom-json2excel';
 const data = [
   {
     name: '哈哈',
@@ -258,7 +265,7 @@ const keyMap = {
   companyAddress: '公司地址',
 };
 const filters = ['sex'];
-const json2excel = new Json2excel({ data, keyMap, filters });
+const json2excel = new JsonToExcel({ data, keyMap, filters });
 json2excel.generate();
 ```
 
@@ -267,7 +274,7 @@ json2excel.generate();
 5、需要表格标题时的使用方式：
 
 ```js
-import Json2excel from '@asasugar-use/custom-json2excel';
+import { JsonToExcel } from '@asasugar-use/custom-json2excel';
 const data = [
   {
     name: '哈哈',
@@ -310,7 +317,7 @@ const title = [
   { name: '个人信息', colspan: 3 },
   { name: '公司信息', colspan: 2 },
 ];
-const json2excel = new Json2excel({ data, keyMap, filters, title });
+const json2excel = new JsonToExcel({ data, keyMap, filters, title });
 json2excel.generate();
 ```
 
@@ -319,7 +326,7 @@ json2excel.generate();
 6、绑定回调函数的使用方式：
 
 ```js
-import Json2excel from '@asasugar-use/custom-json2excel';
+import { JsonToExcel } from '@asasugar-use/custom-json2excel';
 const data = [
   {
     name: '哈哈',
@@ -362,7 +369,7 @@ const title = [
   { name: '个人信息', colspan: 3 },
   { name: '公司信息', colspan: 2 },
 ];
-const json2excel = new Json2excel({
+const json2excel = new JsonToExcel({
   data,
   keyMap,
   filters,
@@ -383,7 +390,7 @@ json2excel.generate();
 7、scope 使用：
 
 ```js
-import Json2excel from '@asasugar-use/custom-json2excel';
+import { JsonToExcel } from '@asasugar-use/custom-json2excel';
 const data = [
   {
     name: '哈哈',
@@ -451,13 +458,13 @@ const scope = {
   love: { study: 'book' },
   v: 'key',
 };
-const json2excel = new Json2excel({ data, scope });
+const json2excel = new JsonToExcel({ data, scope });
 json2excel.generate();
 ```
 
 ![20220413194425](https://raw.githubusercontent.com/asasugar/pic-bed/master/imgs/20220413194425.png)
 
-### 方法二:
+### 方法二
 
 > (示例: example/html/index.html)
 
@@ -472,6 +479,30 @@ json2excel.generate();
 ```html
 const data = [ ... ]; const json2excel = new CustomJson2excel.default({ data, keyMap });
 json2excel.generate();
+```
+
+## 导入 Excel 生成 json 数据
+
+`Antd` 例子:
+
+```tsx
+import { excelToJson } from '@asasugar-use/custom-json2excel';
+
+const handleImport = async (e: { file: UploadFile; }) => {
+const rawFile = e?.file?.originFileObj;
+
+if (!rawFile) return;
+  const json = await excelToJson(rawFile);
+  console.log('%c [ e ]-73', 'font-size:13px; background:pink; color:#bf2c9f;', json);
+};
+
+return (
+  <Upload name="file" accept=".xlsx, .xls, .csv" onChange={handleImport}>
+    <Button type='primary'>
+      导入excel， 生成json
+    </Button>
+  </Upload>
+)
 ```
 
 ## Props type

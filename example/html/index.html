@@ -18,6 +18,7 @@
   </body>
   <script src="../../lib/index.umd.js"></script>
   <script>
+    const { JsonToExcel, excelToJson } = CustomJson2excel;
     function handleExportExcel() {
       const data = [{
         name: "哈哈",
@@ -86,7 +87,7 @@
         },
         v: 'key'
       };
-      const json2excel = new CustomJson2excel.default({
+      const json2excel = new JsonToExcel({
         data,
         scope
       });
@@ -99,10 +100,8 @@
 
       if (!rawFile) return;
 
-      const json2excel = new CustomJson2excel.default({});
-      const json = await json2excel.sheetToJson(rawFile);
+      const json = await excelToJson(rawFile);
       console.log('%c [ rawFile ]-99', 'font-size:13px; background:pink; color:#bf2c9f;', json);
-
     }
   </script>
 

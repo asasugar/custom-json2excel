@@ -1,9 +1,9 @@
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Modal, Breadcrumb, Layout, Menu, theme } from 'antd';
-import type { MenuProps } from 'antd';
+import { Button, Modal, Breadcrumb, Layout, Menu, theme, Upload } from 'antd';
+import type { MenuProps, UploadFile } from 'antd';
 import React, { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import Json2excel from '@asasugar-use/custom-json2excel';
+import { JsonToExcel, excelToJson } from '@asasugar-use/custom-json2excel';
 import logo from '../assets/logo.png';
 
 const { Header, Content, Sider } = Layout;
@@ -31,7 +31,6 @@ const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOu
 		};
 	}
 );
-
 
 
 
@@ -66,10 +65,17 @@ const handleExport = () => {
 			companyAddress: '公司地址4',
 		},
 	];
-	const json2excel = new Json2excel({ data });
+	const json2excel = new JsonToExcel({ data });
 	json2excel.generate();
 };
 
+const handleImport = async (e: { file: UploadFile; }) => {
+	const rawFile = e?.file?.originFileObj;
+
+	if (!rawFile) return;
+	const json = await excelToJson(rawFile);
+	console.log('%c [ e ]-73', 'font-size:13px; background:pink; color:#bf2c9f;', json);
+};
 export const AntdLayout: React.FC = () => {
 	const {
 		token: { colorBgContainer }
@@ -113,10 +119,7 @@ export const AntdLayout: React.FC = () => {
 					/>
 				</Sider>
 				<Layout style={{ padding: '0 24px 24px' }}>
-					<Breadcrumb style={{ margin: '16px 0' }}>
-						<Breadcrumb.Item>Home</Breadcrumb.Item>
-						<Breadcrumb.Item>List</Breadcrumb.Item>
-						<Breadcrumb.Item>App</Breadcrumb.Item>
+					<Breadcrumb style={{ margin: '16px 0' }} items={[{ title: 'Home' }, { title: 'List' }, { title: 'App' }]} >
 					</Breadcrumb>
 					<Content
 						style={{
@@ -129,6 +132,12 @@ export const AntdLayout: React.FC = () => {
 						<Button type='primary' onClick={handleExport}>
 							导出excel
 						</Button>
+
+						<Upload name="file" accept=".xlsx, .xls, .csv" onChange={handleImport}>
+							<Button type='primary'>
+								导入excel， 生成json
+							</Button>
+						</Upload>
 						<div>
 							<img width={600} src={logo} />
 						</div>

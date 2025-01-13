@@ -2,9 +2,9 @@ import { isFunction, isObject, isNullOrUnDef, isBase64 } from './utils/is';
 import { readerData, base64ToBlob, stringToBlob } from './utils/index';
 import type { AnyObject, AnyObjectArray, VoidFunction, Json2ExcelParams, ElsExtend } from './typing';
 
-export default class Json2Excel {
+export class JsonToExcel {
   // 可选的json数组，用于存储要导出的数据
-  data?: AnyObjectArray;
+  data: AnyObjectArray;
   // 可选的作用域对象，用于解析数据中的嵌套字段
   scope?: AnyObject;
   // 可选的有序键数组，用于指定导出数据的列顺序
@@ -85,11 +85,6 @@ export default class Json2Excel {
       `${this.name}.${this.type}`,
       'application/vnd.ms-excel'
     );
-  }
-
-  // 将工作表数据转换为 JSON
-  public async sheetToJson (rawFile: File) {
-    return await readerData(rawFile);
   }
 
   // 获取对象的最后一个值
@@ -197,7 +192,6 @@ export default class Json2Excel {
       if (isBase64(data)) {
         blob = base64ToBlob(data, mime);
       } else {
-        console.log('33333');
         blob = stringToBlob(data, mime);
       }
       resolve(this._download(blob, filename));
@@ -377,4 +371,9 @@ export default class Json2Excel {
     }
     return itemValue;
   }
+}
+
+// 将工作表数据转换为 JSON
+export async function excelToJson (rawFile: File) {
+  return await readerData(rawFile);
 }

@@ -86,6 +86,9 @@ function getCsvData (csv: ParseResult<any>) {
  */
 export function readerData (rawFile: File): Promise<ExcelData[]> {
   return new Promise((resolve, reject) => {
+    if (!(rawFile instanceof File)) {
+      reject(new Error('RawFile must be file'));
+    }
     let reader = new FileReader();
     if (rawFile.type === 'application/vnd.ms-excel' || rawFile.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
       reader.onload = async e => {

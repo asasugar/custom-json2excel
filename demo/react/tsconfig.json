@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
+    "noImplicitAny": true,
+    "noEmit": true,
+    "jsx": "react",
+    "noUnusedParameters": true,
+    "sourceMap": true,
+    "target": "es2020",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "declaration": true,
+    "inlineSources": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": false
+  },
+  "include": ["src/**/*", "farm.config.ts","types/*.d.ts"]
+}

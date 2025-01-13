@@ -451,7 +451,7 @@ json2excel.generate();
 
 ### 方法二:
 
-> (示例: deme/index.html)
+> (示例: deme/html/index.html)
 
 1、下载 `dist` 文件夹 `index.umd.js`;
 

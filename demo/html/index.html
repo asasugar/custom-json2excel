@@ -16,7 +16,7 @@
         onchange="handleInputClick(this)" />
     </p>
   </body>
-  <script src="../lib/index.umd.js"></script>
+  <script src="../../lib/index.umd.js"></script>
   <script>
     function handleExportExcel() {
       const data = [{
@@ -102,9 +102,6 @@
       const json2excel = new CustomJson2excel.default({});
       const json = await json2excel.sheetToJson(rawFile);
       console.log('%c [ rawFile ]-99', 'font-size:13px; background:pink; color:#bf2c9f;', json);
-
-    }
-    function handleExportJson() {
 
     }
   </script>

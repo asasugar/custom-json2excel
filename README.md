@@ -51,7 +51,7 @@ npm install @asasugar-use/custom-json2excel
 
 ### 方法一：
 
-> (示例: deme/react/src/router/antd-layout.tsx)
+> (示例: example/react/src/router/antd-layout.tsx)
 
 1、直接转化 json：
 
@@ -453,7 +453,7 @@ json2excel.generate();
 
 ### 方法二:
 
-> (示例: deme/html/index.html)
+> (示例: example/html/index.html)
 
 1、下载 `dist` 文件夹 `index.umd.js`;
 

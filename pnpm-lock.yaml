@@ -28,7 +28,7 @@ importers:
         specifier: ^5.7.3
         version: 5.7.3
 
-  demo/react:
+  example/react:
     dependencies:
       '@ant-design/icons':
         specifier: ^5.5.2

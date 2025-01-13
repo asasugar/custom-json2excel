@@ -4,6 +4,12 @@
 
 ## 更新内容
 
+### 3.1.8
+
+- 新增 `sheetToJson` 方法，支持导入 excel 输出json功能
+- 使用 `rslib` 重构打包，增加注释
+- 更新 `example` ，react 示例和 html 示例
+
 ### 3.1.7
 
 - 更新包名@asasugar-use/custom-json2excel 和文档

@@ -29,6 +29,12 @@
     "excel",
     "json2excel"
   ],
+  "files": [
+    "lib",
+    "src",
+    "package.json",
+    "README.md"
+  ],
   "devDependencies": {
     "@rslib/core": "^0.3.1",
     "@types/node": "^22.10.5",

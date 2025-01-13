@@ -51,6 +51,8 @@ npm install @asasugar-use/custom-json2excel
 
 ### 方法一：
 
+> (示例: deme/react/src/router/antd-layout.tsx)
+
 1、直接转化 json：
 
 ```js

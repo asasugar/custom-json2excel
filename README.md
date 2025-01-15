@@ -521,3 +521,9 @@ return (
 | onStart    | Function     |          | ×        | 生成 Excel 前的回调函数                                              |
 | onSuccess  | Function     |          | ×        | 生成 Excel 成功的回调函数                                            |
 | onError    | Function     |          | ×        | 生成 Excel 失败的回调函数                                            |
+
+## Stargazers
+[![Stargazers repo roster for @asasugar/custom-json2excel](https://reporoster.com/stars/asasugar/custom-json2excel)](https://github.com/asasugar/custom-json2excel/stargazers)
+
+## Forkers
+[![Forkers repo roster for @asasugar/custom-json2excel](https://reporoster.com/forks/asasugar/custom-json2excel)](https://github.com/asasugar/custom-json2excel/network/members)
